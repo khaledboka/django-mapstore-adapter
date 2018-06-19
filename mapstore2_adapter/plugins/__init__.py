@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #########################################################################
 #
@@ -9,8 +8,3 @@
 # LICENSE file in the root directory of this source tree.
 #
 #########################################################################
-
-from setuptools import setup
-
-
-setup()

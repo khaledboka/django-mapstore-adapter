@@ -1,23 +1,23 @@
 Django MapStore2 Adapter
 ========================
 
-.. image:: https://www.geo-solutions.it/wp-content/uploads/2014/12/logo_geo-solutions.jpg
+.. image:: http://2013.foss4g.org/wp-content/uploads/2013/01/logo_GeoSolutions_quadrato.png
    :target: https://www.geo-solutions.it/
    :alt: GeoSolutions
+   :width: 50
 
 *Django Adapter for MapStore2*
 
-.. image:: https://badge.fury.io/py/django-mapstore-adapter.png
-    :target: http://badge.fury.io/py/django-mapstore-adapter
+.. image:: https://badge.fury.io/py/django-mapstore-adapter.svg?service=github
+   :target: http://badge.fury.io/py/django-mapstore-adapter
 
-.. image:: https://travis-ci.org/geosolutions-it/django-mapstore-adapter.png
+.. image:: https://travis-ci.org/geosolutions-it/django-mapstore-adapter.svg?service=github
    :alt: Build Status
    :target: https://travis-ci.org/geosolutions-it/django-mapstore-adapter
 
-.. image:: https://coveralls.io/repos/github/geosolutions-it/django-mapstore-adapter/badge.svg?branch=master
+.. image:: https://coveralls.io/repos/github/geosolutions-it/django-mapstore-adapter/badge.svg?branch=master&service=github
    :alt: Coverage Status
    :target: https://coveralls.io/github/geosolutions-it/django-mapstore-adapter?branch=master
-
 
 If you are facing one or more of the following:
  * TODO,
