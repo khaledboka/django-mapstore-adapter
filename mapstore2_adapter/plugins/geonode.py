@@ -147,7 +147,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 overlay['attribution'] = capa['attribution']
                             if 'keywords' in capa:
                                 overlay['keywords'] = capa['keywords']
-                            if 'dimensions' in capa:
+                            if 'dimensions' in capa and capa['dimensions']:
                                 overlay['dimensions'] = capa['dimensions']
                             if 'llbbox' in capa:
                                 overlay['llbbox'] = capa['llbbox']
@@ -181,11 +181,28 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                             }
                             overlay['bbox']['crs'] = layer['srs'] if 'srs' in layer else viewer_obj['map']['projection']
 
+                        if 'getFeatureInfo' in layer and layer['getFeatureInfo']:
+                            if 'fields' in layer['getFeatureInfo'] and layer['getFeatureInfo']['fields'] and \
+                                'propertyNames' in layer['getFeatureInfo'] and layer['getFeatureInfo']['propertyNames']:
+                                fields = layer['getFeatureInfo']['fields']
+                                propertyNames = layer['getFeatureInfo']['propertyNames']
+                                featureInfo = {'format': 'TEMPLATE'}
+
+                                _template = '<div>'
+                                for _field in fields:
+                                    _template += '<div class="row">'
+                                    _template += '<div class="col-xs-4" style="font-weight: bold; word-wrap: break-word;">%s</div> \
+                                        <div class="col-xs-8" style="word-wrap: break-word;">${properties.%s}</div>' % (propertyNames[_field], _field)
+                                    _template += '</div>'
+                                _template += '</div>'
+
+                                featureInfo['template'] = _template
+                                overlay['featureInfo'] = featureInfo
+
                     overlays.append(overlay)
                     if not selected or ('selected' in layer and layer['selected']):
                         selected = overlay
         except BaseException:
-            # traceback.print_exc()
             tb = traceback.format_exc()
             logger.error(tb)
 
@@ -227,11 +244,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             except BaseException:
                 center = (0, 0)
                 zoom = 0
-                # traceback.print_exc()
                 tb = traceback.format_exc()
                 logger.error(tb)
         except BaseException:
-            # traceback.print_exc()
             tb = traceback.format_exc()
             logger.error(tb)
 
