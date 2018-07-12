@@ -183,7 +183,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
                         if 'getFeatureInfo' in layer and layer['getFeatureInfo']:
                             if 'fields' in layer['getFeatureInfo'] and layer['getFeatureInfo']['fields'] and \
-                                'propertyNames' in layer['getFeatureInfo'] and layer['getFeatureInfo']['propertyNames']:
+                                    'propertyNames' in layer['getFeatureInfo'] and layer['getFeatureInfo']['propertyNames']:
                                 fields = layer['getFeatureInfo']['fields']
                                 propertyNames = layer['getFeatureInfo']['propertyNames']
                                 featureInfo = {'format': 'TEMPLATE'}
@@ -192,7 +192,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 for _field in fields:
                                     _template += '<div class="row">'
                                     _template += '<div class="col-xs-4" style="font-weight: bold; word-wrap: break-word;">%s</div> \
-                                        <div class="col-xs-8" style="word-wrap: break-word;">${properties.%s}</div>' % (propertyNames[_field], _field)
+                                        <div class="col-xs-8" style="word-wrap: break-word;">${properties.%s}</div>' % \
+                                        (propertyNames[_field], _field)
                                     _template += '</div>'
                                 _template += '</div>'
 

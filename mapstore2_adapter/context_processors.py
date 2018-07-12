@@ -15,10 +15,10 @@ from django.conf import settings
 def resource_urls(request):
     """Global values to pass to templates"""
     defaults = dict(
-        MAP_DEBUG = getattr(settings, "MAPSTORE_DEBUG", False),
-        MAP_BASELAYERS = getattr(settings, "MAPSTORE_BASELAYERS", []),
-        CATALOGUE_SERVICES = getattr(settings, "MAPSTORE_CATALOGUE_SERVICES", {}),
-        CATALOGUE_SELECTED_SERVICE = getattr(settings, "MAPSTORE_CATALOGUE_SELECTED_SERVICE", None),
+        MAP_DEBUG=getattr(settings, "MAPSTORE_DEBUG", False),
+        MAP_BASELAYERS=getattr(settings, "MAPSTORE_BASELAYERS", []),
+        CATALOGUE_SERVICES=getattr(settings, "MAPSTORE_CATALOGUE_SERVICES", {}),
+        CATALOGUE_SELECTED_SERVICE=getattr(settings, "MAPSTORE_CATALOGUE_SELECTED_SERVICE", None),
     )
 
     return defaults
