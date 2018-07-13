@@ -183,7 +183,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
                         if 'getFeatureInfo' in layer and layer['getFeatureInfo']:
                             if 'fields' in layer['getFeatureInfo'] and layer['getFeatureInfo']['fields'] and \
-                                    'propertyNames' in layer['getFeatureInfo'] and layer['getFeatureInfo']['propertyNames']:
+                                    'propertyNames' in layer['getFeatureInfo'] and \
+                                    layer['getFeatureInfo']['propertyNames']:
                                 fields = layer['getFeatureInfo']['fields']
                                 propertyNames = layer['getFeatureInfo']['propertyNames']
                                 featureInfo = {'format': 'TEMPLATE'}
