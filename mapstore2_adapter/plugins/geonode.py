@@ -20,6 +20,7 @@ import logging
 import traceback
 
 from ..utils import (GoogleZoom,
+                     get_wfs_endpoint,
                      get_valid_number,
                      to_json)
 from ..settings import (MAP_BASELAYERS,
@@ -151,6 +152,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 overlay['dimensions'] = capa['dimensions']
                             if 'llbbox' in capa:
                                 overlay['llbbox'] = capa['llbbox']
+                            if 'storeType' in capa and capa['storeType'] == 'dataStore':
+                                overlay['search'] = {
+                                    "url": get_wfs_endpoint(),
+                                    "type": "wfs"
+                                }
                             if 'bbox' in capa:
                                 bbox = capa['bbox']
                                 if viewer_obj['map']['projection'] in bbox:

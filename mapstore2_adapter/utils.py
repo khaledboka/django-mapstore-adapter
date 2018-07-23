@@ -17,11 +17,14 @@ except ImportError:
     from django.utils import simplejson as json
 
 from math import atan, exp, log, pi, sin, isnan, isinf
+from urlparse import urljoin
 
 from mapstore2_adapter import DjangoMapstore2AdapterBaseException
 
-from django.contrib.gis.geos import GEOSGeometry, LinearRing, Point, Polygon
+from django.conf import settings
 from django.utils.six.moves import range
+from django.core.urlresolvers import reverse
+from django.contrib.gis.geos import GEOSGeometry, LinearRing, Point, Polygon
 
 # Constants used for degree to radian conversion, and vice-versa.
 DTOR = pi / 180.
@@ -182,6 +185,14 @@ class GoogleZoom(object):
         height = ll.distance(ul)
         width = ul.distance(ur)
         return width, height
+
+
+def get_wfs_endpoint():
+    try:
+        wfs_url = urljoin(settings.SITEURL, reverse('wfs_endpoint'))
+    except BaseException:
+        wfs_url = urljoin(ogc_settings.PUBLIC_LOCATION, 'ows')
+    return wfs_url
 
 
 def get_valid_number(number, default=None, complementar=False):
