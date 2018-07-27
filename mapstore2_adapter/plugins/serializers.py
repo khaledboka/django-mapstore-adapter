@@ -67,7 +67,7 @@ class GeoNodeSerializer(object):
                 allowed_map_ids.append(mapid)
             except:
                 tb = traceback.format_exc()
-                logger.debug(tb)
+                logger.error(tb)
 
         # queryset = queryset.filter(user=self.request.user)
         queryset = queryset.filter(id__in=allowed_map_ids)
@@ -86,7 +86,7 @@ class GeoNodeSerializer(object):
                     _PERMISSION_MSG_SAVE)
         except:
             tb = traceback.format_exc()
-            logger.info(tb)
+            logger.error(tb)
             raise APIException(_PERMISSION_MSG_SAVE)
 
         if 'data' in serializer.validated_data:
@@ -140,7 +140,8 @@ class GeoNodeSerializer(object):
                                     _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
                     except:
                         tb = traceback.format_exc()
-                        logger.info(tb)
+                        logger.error(tb)
+
                     if _lyr_context:
                         if 'capability' in _lyr_context:
                             _lyr['capability'] = _lyr_context['capability']
@@ -161,7 +162,7 @@ class GeoNodeSerializer(object):
                 serializer.validated_data['id'] = _map.id
             except:
                 tb = traceback.format_exc()
-                logger.info(tb)
+                logger.error(tb)
                 raise APIException(tb)
         else:
             raise APIException("Map Configuration (data) is Mandatory!")

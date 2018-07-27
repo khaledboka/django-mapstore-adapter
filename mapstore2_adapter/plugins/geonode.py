@@ -42,13 +42,18 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             input: GeoNode JSON Gxp Config
             output: MapStore2 compliant str(config)
         """
+        # Initialization
+        viewer_obj = json.loads(viewer)
+
+        map_id = None
+        if 'id' in viewer_obj:
+            map_id = int(viewer_obj['id'])
+
         data = {}
         data['version'] = 2
-        data['widgetsConfig'] = {}  # TODO
 
+        # Map Definition
         try:
-            viewer_obj = json.loads(viewer)
-
             # Map Definition
             ms2_map = {}
             ms2_map['projection'] = viewer_obj['map']['projection']
@@ -99,17 +104,36 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 ms2_map['layers'].append(overlay)
 
             data['map'] = ms2_map
-
-            # Catalogue Services Definition
-            ms2_catalogue = {}
-            ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
-            ms2_catalogue['services'] = CATALOGUE_SERVICES
-
-            data['catalogServices'] = ms2_catalogue
         except BaseException:
             # traceback.print_exc()
             tb = traceback.format_exc()
             logger.error(tb)
+
+        # Default Catalogue Services Definition
+        if 'catalogServices' not in data:
+            try:
+                ms2_catalogue = {}
+                ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
+                ms2_catalogue['services'] = CATALOGUE_SERVICES
+                data['catalogServices'] = ms2_catalogue
+            except BaseException:
+                # traceback.print_exc()
+                tb = traceback.format_exc()
+                logger.error(tb)
+
+        # Additional Configurations
+        if map_id:
+            from mapstore2_adapter.api.models import MapStoreResource
+            try:
+                ms2_resource = MapStoreResource.objects.get(id=map_id)
+                ms2_map_data = ms2_resource.data.blob
+                if 'map' in ms2_map_data:
+                    del ms2_map_data['map']
+                data.update(ms2_map_data)
+            except BaseException:
+                # traceback.print_exc()
+                tb = traceback.format_exc()
+                logger.error(tb)
 
         return json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
 
