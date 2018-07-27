@@ -15,6 +15,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
+router.register(r'resources', views.MapStoreResourceViewSet, base_name="resources")
 
 urlpatterns = [
     url(r'^rest/', include(router.urls)),

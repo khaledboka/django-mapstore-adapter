@@ -21,6 +21,13 @@ try:
 except:
     pass
 
+try:
+    settings.LOGGING["loggers"]["mapstore2_adapter"] = {"handlers": ["console"], "level": "INFO", }
+except:
+    pass
+
+settings.MAPSTORE2_ADAPTER_SERIALIZER = "mapstore2_adapter.plugins.serializers.GeoNodeSerializer"
+
 MAP_DEBUG = getattr(settings, "MAPSTORE_DEBUG", False)
 MAP_BASELAYERS = getattr(settings, "MAPSTORE_BASELAYERS", [])
 CATALOGUE_SERVICES = getattr(settings, "MAPSTORE_CATALOGUE_SERVICES", {})

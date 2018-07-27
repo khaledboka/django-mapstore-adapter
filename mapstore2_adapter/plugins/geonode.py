@@ -84,7 +84,6 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
             # Overlays
             overlays, selected = self.get_overlays(viewer)
-
             if selected:
                 center, zoom = self.get_center_and_zoom(viewer_obj['map'], selected)
                 ms2_map['center'] = center
