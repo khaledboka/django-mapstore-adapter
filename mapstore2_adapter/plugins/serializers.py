@@ -16,6 +16,7 @@ from ..api.models import (MapStoreData,
 
 from rest_framework.exceptions import APIException
 
+import json
 import base64
 import logging
 import traceback
@@ -123,12 +124,29 @@ class GeoNodeSerializer(object):
                     "title": _map_title,
                     "abstract": _map_abstract}
                 _map_conf['sources'] = {}
+                from geonode.layers.views import layer_detail
                 for _lyr in _map_conf['map']['layers']:
-                    if 'source' in _lyr:
+                    _lyr_context = None
+                    try:
+                        _gn_layer = layer_detail(
+                            caller.request,
+                            _lyr['name'])
+                        if _gn_layer and _gn_layer.context_data:
+                            _context_data = json.loads(_gn_layer.context_data['viewer'])
+                            for _gn_layer_ctx in _context_data['map']['layers']:
+                                if 'name' in _gn_layer_ctx and _gn_layer_ctx['name'] == _lyr['name']:
+                                    _lyr_context = _gn_layer_ctx
+                                    _src_idx = _lyr_context['source']
+                                    _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
+                    except:
+                        tb = traceback.format_exc()
+                        logger.info(tb)
+                    if _lyr_context:
+                        if 'capability' in _lyr_context:
+                            _lyr['capability'] = _lyr_context['capability']
+                    elif 'source' in _lyr:
                         _map_conf['sources'][_lyr['source']] = {}
 
-                import json
-                print(json.dumps(_map_conf))
                 from geonode.maps.models import Map
                 _map = Map(
                     title=serializer.validated_data['name'],

@@ -170,21 +170,24 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                     overlay['bbox']['crs'] = bbox['srs']
 
                         if 'bbox' in layer and not overlay['bbox']:
-                            overlay['bbox']['bounds'] = {
-                                "minx": get_valid_number(layer['bbox'][0],
-                                                         default=layer['bbox'][2],
-                                                         complementar=True),
-                                "miny": get_valid_number(layer['bbox'][1],
-                                                         default=layer['bbox'][3],
-                                                         complementar=True),
-                                "maxx": get_valid_number(layer['bbox'][2],
-                                                         default=layer['bbox'][0],
-                                                         complementar=True),
-                                "maxy": get_valid_number(layer['bbox'][3],
-                                                         default=layer['bbox'][1],
-                                                         complementar=True)
-                            }
-                            overlay['bbox']['crs'] = layer['srs'] if 'srs' in layer else viewer_obj['map']['projection']
+                            if 'bounds' in layer['bbox']:
+                                overlay['bbox'] = layer['bbox']
+                            else:
+                                overlay['bbox']['bounds'] = {
+                                    "minx": get_valid_number(layer['bbox'][0],
+                                                             default=layer['bbox'][2],
+                                                             complementar=True),
+                                    "miny": get_valid_number(layer['bbox'][1],
+                                                             default=layer['bbox'][3],
+                                                             complementar=True),
+                                    "maxx": get_valid_number(layer['bbox'][2],
+                                                             default=layer['bbox'][0],
+                                                             complementar=True),
+                                    "maxy": get_valid_number(layer['bbox'][3],
+                                                             default=layer['bbox'][1],
+                                                             complementar=True)
+                                }
+                                overlay['bbox']['crs'] = layer['srs'] if 'srs' in layer else viewer_obj['map']['projection']
 
                         if 'getFeatureInfo' in layer and layer['getFeatureInfo']:
                             if 'fields' in layer['getFeatureInfo'] and layer['getFeatureInfo']['fields'] and \
