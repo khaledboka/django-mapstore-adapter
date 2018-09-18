@@ -9,7 +9,7 @@
 #
 #########################################################################
 
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 try:
     import json
@@ -87,18 +87,72 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 # }, ...
             ]
 
+            # Security Info
+            info = {}
+            info['canDelete'] = False
+            info['canEdit'] = False
+            info['description'] = viewer_obj['about']['abstract']
+            info['id'] = map_id
+            info['name'] = viewer_obj['about']['title']
+            ms2_map['info'] = info
+
             # Overlays
             overlays, selected = self.get_overlays(viewer)
-            if selected:
+            if selected and not map_id:
+                # We are generating a Layer Details View
                 center, zoom = self.get_center_and_zoom(viewer_obj['map'], selected)
                 ms2_map['center'] = center
                 ms2_map['zoom'] = zoom
+
+                # - extract from GeoNode guardian
+                from geonode.layers.views import (_resolve_layer,
+                                                  _PERMISSION_MSG_MODIFY,
+                                                  _PERMISSION_MSG_DELETE,
+                                                  _PERMISSION_MSG_GENERIC)
+                try:
+                    if _resolve_layer(request,
+                                      selected['name'],
+                                      'base.change_resourcebase',
+                                      _PERMISSION_MSG_MODIFY):
+                        info['canEdit'] = True
+
+                    if _resolve_layer(request,
+                                      selected['name'],
+                                      'base.delete_resourcebase',
+                                      _PERMISSION_MSG_DELETE):
+                        info['canDelete'] = True
+                except:
+                    tb = traceback.format_exc()
+                    logger.error(tb)
             else:
+                # We are getting the configuration of a Map
+                # On GeoNode model the Map Center is always saved in 4326
                 ms2_map['center'] = {
-                    "x": get_valid_number(viewer_obj['map']['center'][0]),
-                    "y": get_valid_number(viewer_obj['map']['center'][1]),
-                    "crs": viewer_obj['map']['projection']
+                    'x': get_valid_number(viewer_obj['map']['center'][0]),
+                    'y': get_valid_number(viewer_obj['map']['center'][1]),
+                    'crs': 'EPSG:4326'
                 }
+
+                # - extract from GeoNode guardian
+                from geonode.maps.views import (_resolve_map,
+                                                _PERMISSION_MSG_SAVE,
+                                                _PERMISSION_MSG_DELETE,
+                                                _PERMISSION_MSG_GENERIC)
+                try:
+                    if _resolve_map(request,
+                                    str(map_id),
+                                    'base.change_resourcebase',
+                                    _PERMISSION_MSG_SAVE):
+                        info['canEdit'] = True
+
+                    if _resolve_map(request,
+                                    str(map_id),
+                                    'base.delete_resourcebase',
+                                    _PERMISSION_MSG_DELETE):
+                        info['canDelete'] = True
+                except:
+                    tb = traceback.format_exc()
+                    logger.error(tb)
 
             for overlay in overlays:
                 ms2_map['layers'].append(overlay)
@@ -110,16 +164,15 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             logger.error(tb)
 
         # Default Catalogue Services Definition
-        if 'catalogServices' not in data:
-            try:
-                ms2_catalogue = {}
-                ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
-                ms2_catalogue['services'] = CATALOGUE_SERVICES
-                data['catalogServices'] = ms2_catalogue
-            except BaseException:
-                # traceback.print_exc()
-                tb = traceback.format_exc()
-                logger.error(tb)
+        try:
+            ms2_catalogue = {}
+            ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
+            ms2_catalogue['services'] = CATALOGUE_SERVICES
+            data['catalogServices'] = ms2_catalogue
+        except BaseException:
+            # traceback.print_exc()
+            tb = traceback.format_exc()
+            logger.error(tb)
 
         # Additional Configurations
         if map_id:
@@ -255,12 +308,15 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         zoom = view_map['zoom']
         # max_extent = view_map['maxExtent']
         # map_crs = view_map['projection']
+        ov_bbox = [get_valid_number(overlay['bbox']['bounds']['minx']),
+                   get_valid_number(overlay['bbox']['bounds']['miny']),
+                   get_valid_number(overlay['bbox']['bounds']['maxx']),
+                   get_valid_number(overlay['bbox']['bounds']['maxy']), ]
+        ov_crs = overlay['bbox']['crs']
+        return self.project_to_mercator(ov_bbox, ov_crs, center)
+
+    def project_to_mercator(self, ov_bbox, ov_crs, center=None):
         try:
-            ov_bbox = [get_valid_number(overlay['bbox']['bounds']['minx']),
-                       get_valid_number(overlay['bbox']['bounds']['miny']),
-                       get_valid_number(overlay['bbox']['bounds']['maxx']),
-                       get_valid_number(overlay['bbox']['bounds']['maxy']), ]
-            ov_crs = overlay['bbox']['crs']
             srid = int(ov_crs.split(':')[1])
             srid = 3857 if srid == 900913 else srid
             poly = Polygon((
@@ -274,6 +330,12 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             trans = CoordTransform(ycoord, gcoord)
             poly.transform(trans)
             try:
+                if not center:
+                    center = {
+                        "x": get_valid_number(poly.centroid.coords[0]),
+                        "y": get_valid_number(poly.centroid.coords[1]),
+                        "crs": "EPSG:3857"
+                    }
                 zoom = GoogleZoom().get_zoom(poly) + 1
             except BaseException:
                 center = (0, 0)
@@ -291,5 +353,4 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             input: MapStore2 compliant str(config)
             output: GeoNode JSON Gxp Config
         """
-        # TODO
         return to_json(viewer)

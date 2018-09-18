@@ -73,7 +73,7 @@ class GeoNodeSerializer(object):
         queryset = queryset.filter(id__in=allowed_map_ids)
         return queryset
 
-    def perform_create(self, caller, serializer):
+    def get_geonode_map(self, caller, serializer):
         from geonode.maps.views import (_resolve_map,
                                         _PERMISSION_MSG_SAVE)
         try:
@@ -84,82 +84,86 @@ class GeoNodeSerializer(object):
                     str(mapid),
                     'base.change_resourcebase',
                     _PERMISSION_MSG_SAVE)
+                return map_obj
         except:
             tb = traceback.format_exc()
             logger.error(tb)
             raise APIException(_PERMISSION_MSG_SAVE)
 
-        if 'data' in serializer.validated_data:
-            _data = serializer.validated_data.pop('data', None)
-        else:
-            raise APIException("Map Configuration (data) is Mandatory!")
-
-        if 'attributes' in serializer.validated_data:
-            _attributes = serializer.validated_data.pop('attributes', None)
-        else:
-            raise APIException("Map Metadata (attributes) are Mandatory!")
-
-        if _attributes:
-            _map_name = None
-            _map_title = None
-            _map_abstract = None
-            for _a in _attributes:
+    def set_geonode_map(self, caller, serializer, map_obj=None, data=None, attributes=None):
+        _map_name = None
+        _map_title = None
+        _map_abstract = None
+        if attributes:
+            for _a in attributes:
                 if _a['name'] == 'name':
                     _map_name = _a['value']
                 if _a['name'] == 'title':
                     _map_title = _a['value']
                 if _a['name'] == 'abstract':
                     _map_abstract = _a['value']
-        else:
-            raise APIException("Map Metadata (attributes) are Mandatory!")
+        elif map_obj:
+            _map_title = map_obj.title
+            _map_abstract = map_obj.abstract
 
-        _map_name = _map_name or serializer.validated_data['name']
+        _map_name = _map_name or None
+        if not _map_name and 'name' in serializer.validated_data:
+            _map_name = serializer.validated_data['name']
         _map_title = _map_title or _map_name
         _map_abstract = _map_abstract or ""
-        if _data:
+        if data:
             try:
-                _map_conf = _data
+                _map_conf = dict(data)
                 _map_conf["about"] = {
                     "name": _map_name,
                     "title": _map_title,
                     "abstract": _map_abstract}
                 _map_conf['sources'] = {}
                 from geonode.layers.views import layer_detail
-                for _lyr in _map_conf['map']['layers']:
-                    _lyr_context = None
-                    try:
-                        _gn_layer = layer_detail(
-                            caller.request,
-                            _lyr['name'])
-                        if _gn_layer and _gn_layer.context_data:
-                            _context_data = json.loads(_gn_layer.context_data['viewer'])
-                            for _gn_layer_ctx in _context_data['map']['layers']:
-                                if 'name' in _gn_layer_ctx and _gn_layer_ctx['name'] == _lyr['name']:
-                                    _lyr_context = _gn_layer_ctx
-                                    _src_idx = _lyr_context['source']
-                                    _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
-                    except:
-                        tb = traceback.format_exc()
-                        logger.error(tb)
+                _map_obj = data.pop('map', None)
+                if _map_obj:
+                    for _lyr in _map_obj['layers']:
+                        _lyr_context = None
+                        try:
+                            _gn_layer = layer_detail(
+                                caller.request,
+                                _lyr['name'])
+                            if _gn_layer and _gn_layer.context_data:
+                                _context_data = json.loads(_gn_layer.context_data['viewer'])
+                                for _gn_layer_ctx in _context_data['map']['layers']:
+                                    if 'name' in _gn_layer_ctx and _gn_layer_ctx['name'] == _lyr['name']:
+                                        _lyr_context = _gn_layer_ctx
+                                        _src_idx = _lyr_context['source']
+                                        _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
+                        except:
+                            tb = traceback.format_exc()
+                            logger.error(tb)
 
-                    if _lyr_context:
-                        if 'capability' in _lyr_context:
-                            _lyr['capability'] = _lyr_context['capability']
-                    elif 'source' in _lyr:
-                        _map_conf['sources'][_lyr['source']] = {}
+                        if _lyr_context:
+                            if 'capability' in _lyr_context:
+                                _lyr['capability'] = _lyr_context['capability']
+                        elif 'source' in _lyr:
+                            _map_conf['sources'][_lyr['source']] = {}
 
-                from geonode.maps.models import Map
-                _map = Map(
-                    title=serializer.validated_data['name'],
-                    owner=caller.request.user,
-                    center_x=_map_conf['map']['center']['x'],
-                    center_y=_map_conf['map']['center']['y'],
-                    zoom=_map_conf['map']['zoom'])
-                _map.save()
-                _map.update_from_viewer(
-                    _map_conf,
-                    context={'config': _map_conf})
-                serializer.validated_data['id'] = _map.id
+                    if not map_obj:
+                        # Create a new GeoNode Map
+                        from geonode.maps.models import Map
+                        map_obj = Map(
+                            title=_map_title,
+                            owner=caller.request.user,
+                            center_x=_map_obj['center']['x'],
+                            center_y=_map_obj['center']['y'],
+                            zoom=_map_obj['zoom'])
+                        map_obj.save()
+
+                    # Update GeoNode Map
+                    _map_conf['map'] = _map_obj
+                    map_obj.update_from_viewer(
+                        _map_conf,
+                        context={'config': _map_conf})
+
+                    serializer.validated_data['id'] = map_obj.id
+                    serializer.save(user=caller.request.user)
             except:
                 tb = traceback.format_exc()
                 logger.error(tb)
@@ -167,27 +171,54 @@ class GeoNodeSerializer(object):
         else:
             raise APIException("Map Configuration (data) is Mandatory!")
 
-        serializer.save(user=caller.request.user)
 
-        # Save JSON blob
-        GeoNodeSerializer.update_data(serializer, _data)
+    def perform_create(self, caller, serializer):
+        map_obj = self.get_geonode_map(caller, serializer)
 
-        # Sabe Attributes
-        GeoNodeSerializer.update_attributes(serializer, _attributes)
+        _data = None
+        _attributes = None
+
+        if 'data' in serializer.validated_data:
+            _data = serializer.validated_data.pop('data', None)
+        else:
+            raise APIException("Map Configuration (data) is Mandatory!")
+
+        if 'attributes' in serializer.validated_data:
+            _attributes = serializer.validated_data.pop('attributes', None)
+        else:
+            raise APIException("Map Metadata (attributes) are Mandatory!")
+
+        self.set_geonode_map(caller, serializer, map_obj, _data, _attributes)
+
+        if _data:
+            # Save JSON blob
+            GeoNodeSerializer.update_data(serializer, _data)
+
+        if _attributes:
+            # Sabe Attributes
+            GeoNodeSerializer.update_attributes(serializer, _attributes)
 
         return serializer.save()
 
+
     def perform_update(self, caller, serializer):
+        map_obj = self.get_geonode_map(caller, serializer)
+
+        _data = None
+        _attributes = None
+
         if 'data' in serializer.validated_data:
             _data = serializer.validated_data.pop('data', None)
+
+            # Save JSON blob
+            GeoNodeSerializer.update_data(serializer, _data)
 
         if 'attributes' in serializer.validated_data:
             _attributes = serializer.validated_data.pop('attributes', None)
 
-        # Save JSON blob
-        GeoNodeSerializer.update_data(serializer, _data)
+            # Sabe Attributes
+            GeoNodeSerializer.update_attributes(serializer, _attributes)
 
-        # Sabe Attributes
-        GeoNodeSerializer.update_attributes(serializer, _attributes)
+        self.set_geonode_map(caller, serializer, map_obj, _data, _attributes)
 
         return serializer.save()
