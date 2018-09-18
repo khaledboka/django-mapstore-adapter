@@ -16,7 +16,11 @@ from ..api.models import (MapStoreData,
 
 from rest_framework.exceptions import APIException
 
-import json
+try:
+    import json
+except ImportError:
+    from django.utils import simplejson as json
+
 import base64
 import logging
 import traceback
@@ -91,9 +95,29 @@ class GeoNodeSerializer(object):
             raise APIException(_PERMISSION_MSG_SAVE)
 
     def set_geonode_map(self, caller, serializer, map_obj=None, data=None, attributes=None):
+
+        def decode_base64(data):
+            """Decode base64, padding being optional.
+
+            :param data: Base64 data as an ASCII byte string
+            :returns: The decoded byte string.
+
+            """
+            _thumbnail_format = 'png'
+            _invalid_padding = data.find(';base64,')
+            if _invalid_padding:
+                _thumbnail_format = data[data.find('image/') + len('image/'):_invalid_padding]
+                data = data[_invalid_padding + len(';base64,'):]
+            missing_padding = len(data) % 4
+            if missing_padding != 0:
+                data += b'='* (4 - missing_padding)
+            return (base64.decodestring(data), _thumbnail_format)
+
         _map_name = None
         _map_title = None
         _map_abstract = None
+        _map_thumbnail = None
+        _map_thumbnail_format = 'png'
         if attributes:
             for _a in attributes:
                 if _a['name'] == 'name':
@@ -102,6 +126,8 @@ class GeoNodeSerializer(object):
                     _map_title = _a['value']
                 if _a['name'] == 'abstract':
                     _map_abstract = _a['value']
+                if 'thumb' in _a['name']:
+                    (_map_thumbnail, _map_thumbnail_format) = decode_base64(_a['value'])
         elif map_obj:
             _map_title = map_obj.title
             _map_abstract = map_obj.abstract
@@ -161,6 +187,11 @@ class GeoNodeSerializer(object):
                     map_obj.update_from_viewer(
                         _map_conf,
                         context={'config': _map_conf})
+
+                    # Dumps thumbnail from MapStore2 Interface
+                    if _map_thumbnail:
+                        _map_thumbnail_filename = "map-%s-thumb.%s" % (map_obj.uuid, _map_thumbnail_format)
+                        map_obj.save_thumbnail(_map_thumbnail_filename, _map_thumbnail)
 
                     serializer.validated_data['id'] = map_obj.id
                     serializer.save(user=caller.request.user)
