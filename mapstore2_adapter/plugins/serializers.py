@@ -59,17 +59,18 @@ class GeoNodeSerializer(object):
     def get_queryset(self, caller, queryset):
         allowed_map_ids = []
         for _q in queryset:
-            from geonode.maps.views import (_resolve_map,
-                                            _PERMISSION_MSG_VIEW)
             mapid = _q.id
             try:
+                from geonode.maps.views import (_resolve_map,
+                                                _PERMISSION_MSG_VIEW)
                 map_obj = _resolve_map(
                     caller.request,
                     str(mapid),
                     'base.view_resourcebase',
                     _PERMISSION_MSG_VIEW)
-                allowed_map_ids.append(mapid)
-            except:
+                if map_obj:
+                    allowed_map_ids.append(mapid)
+            except BaseException:
                 tb = traceback.format_exc()
                 logger.error(tb)
 
@@ -78,9 +79,9 @@ class GeoNodeSerializer(object):
         return queryset
 
     def get_geonode_map(self, caller, serializer):
-        from geonode.maps.views import (_resolve_map,
-                                        _PERMISSION_MSG_SAVE)
+        from geonode.maps.views import _PERMISSION_MSG_SAVE
         try:
+            from geonode.maps.views import _resolve_map
             if 'id' in serializer.validated_data:
                 mapid = serializer.validated_data['id']
                 map_obj = _resolve_map(
@@ -89,7 +90,7 @@ class GeoNodeSerializer(object):
                     'base.change_resourcebase',
                     _PERMISSION_MSG_SAVE)
                 return map_obj
-        except:
+        except BaseException:
             tb = traceback.format_exc()
             logger.error(tb)
             raise APIException(_PERMISSION_MSG_SAVE)
@@ -110,8 +111,8 @@ class GeoNodeSerializer(object):
                 data = data[_invalid_padding + len(';base64,'):]
             missing_padding = len(data) % 4
             if missing_padding != 0:
-                data += b'='* (4 - missing_padding)
-            return (base64.decodestring(data), _thumbnail_format)
+                data += b'=' * (4 - missing_padding)
+            return (data.decode('base64'), _thumbnail_format)
 
         _map_name = None
         _map_title = None
@@ -161,7 +162,7 @@ class GeoNodeSerializer(object):
                                         _lyr_context = _gn_layer_ctx
                                         _src_idx = _lyr_context['source']
                                         _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
-                        except:
+                        except BaseException:
                             tb = traceback.format_exc()
                             logger.error(tb)
 
@@ -195,13 +196,12 @@ class GeoNodeSerializer(object):
 
                     serializer.validated_data['id'] = map_obj.id
                     serializer.save(user=caller.request.user)
-            except:
+            except BaseException:
                 tb = traceback.format_exc()
                 logger.error(tb)
                 raise APIException(tb)
         else:
             raise APIException("Map Configuration (data) is Mandatory!")
-
 
     def perform_create(self, caller, serializer):
         map_obj = self.get_geonode_map(caller, serializer)
@@ -230,7 +230,6 @@ class GeoNodeSerializer(object):
             GeoNodeSerializer.update_attributes(serializer, _attributes)
 
         return serializer.save()
-
 
     def perform_update(self, caller, serializer):
         map_obj = self.get_geonode_map(caller, serializer)

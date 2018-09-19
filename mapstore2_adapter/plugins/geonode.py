@@ -104,12 +104,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 ms2_map['center'] = center
                 ms2_map['zoom'] = zoom
 
-                # - extract from GeoNode guardian
-                from geonode.layers.views import (_resolve_layer,
-                                                  _PERMISSION_MSG_MODIFY,
-                                                  _PERMISSION_MSG_DELETE,
-                                                  _PERMISSION_MSG_GENERIC)
                 try:
+                    # - extract from GeoNode guardian
+                    from geonode.layers.views import (_resolve_layer,
+                                                      _PERMISSION_MSG_MODIFY,
+                                                      _PERMISSION_MSG_DELETE)
                     if _resolve_layer(request,
                                       selected['name'],
                                       'base.change_resourcebase',
@@ -121,7 +120,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                       'base.delete_resourcebase',
                                       _PERMISSION_MSG_DELETE):
                         info['canDelete'] = True
-                except:
+                except BaseException:
                     tb = traceback.format_exc()
                     logger.error(tb)
             else:
@@ -133,12 +132,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     'crs': 'EPSG:4326'
                 }
 
-                # - extract from GeoNode guardian
-                from geonode.maps.views import (_resolve_map,
-                                                _PERMISSION_MSG_SAVE,
-                                                _PERMISSION_MSG_DELETE,
-                                                _PERMISSION_MSG_GENERIC)
                 try:
+                    # - extract from GeoNode guardian
+                    from geonode.maps.views import (_resolve_map,
+                                                    _PERMISSION_MSG_SAVE,
+                                                    _PERMISSION_MSG_DELETE)
                     if _resolve_map(request,
                                     str(map_id),
                                     'base.change_resourcebase',
@@ -150,7 +148,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                     'base.delete_resourcebase',
                                     _PERMISSION_MSG_DELETE):
                         info['canDelete'] = True
-                except:
+                except BaseException:
                     tb = traceback.format_exc()
                     logger.error(tb)
 
@@ -264,7 +262,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                                              default=layer['bbox'][1],
                                                              complementar=True)
                                 }
-                                overlay['bbox']['crs'] = layer['srs'] if 'srs' in layer else viewer_obj['map']['projection']
+                                overlay['bbox']['crs'] = layer['srs'] if 'srs' in layer else \
+                                    viewer_obj['map']['projection']
 
                         if 'getFeatureInfo' in layer and layer['getFeatureInfo']:
                             if 'fields' in layer['getFeatureInfo'] and layer['getFeatureInfo']['fields'] and \
@@ -313,7 +312,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                    get_valid_number(overlay['bbox']['bounds']['maxx']),
                    get_valid_number(overlay['bbox']['bounds']['maxy']), ]
         ov_crs = overlay['bbox']['crs']
-        return self.project_to_mercator(ov_bbox, ov_crs, center)
+        (center_m, zoom_m) = self.project_to_mercator(ov_bbox, ov_crs, center)
+        if center_m and zoom_m:
+            return (center_m, zoom_m)
+        else:
+            return (center, zoom)
 
     def project_to_mercator(self, ov_bbox, ov_crs, center=None):
         try:

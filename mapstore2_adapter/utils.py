@@ -191,7 +191,8 @@ def get_wfs_endpoint():
     try:
         wfs_url = urljoin(settings.SITEURL, reverse('wfs_endpoint'))
     except BaseException:
-        wfs_url = urljoin(ogc_settings.PUBLIC_LOCATION, 'ows')
+        # wfs_url = urljoin(ogc_settings.PUBLIC_LOCATION, 'ows')
+        pass
     return wfs_url
 
 

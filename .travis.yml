@@ -51,6 +51,10 @@ install:
   - sudo apt-get install -y python-imaging python-lxml python-pyproj python-shapely python-nose python-httplib2 python-httplib2 gettext
   - sudo apt-get install -y python-dev libxml2 libxml2-dev libxslt1-dev zlib1g-dev libjpeg-dev libpq-dev libgdal-dev git default-jdk
   # - pip install pygdal==`gdal-config --version`
+  - pip install pip --upgrade
+  - pip install django==1.11
+  - pip install celery==4.1.0
+  - pip install GeoNode --upgrade --no-deps --no-cache-dir --ignore-requires-python
   - pip install coveralls tox
 
 script:

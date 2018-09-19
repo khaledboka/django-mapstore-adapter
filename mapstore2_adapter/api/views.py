@@ -9,7 +9,6 @@
 #
 #########################################################################
 
-from django.http import Http404
 from django.contrib.auth import get_user_model
 
 from rest_framework import viewsets

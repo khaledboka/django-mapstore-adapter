@@ -14,7 +14,6 @@ from rest_framework import serializers
 
 from .models import MapStoreResource
 
-import json
 import base64
 import logging
 
@@ -33,7 +32,7 @@ class JSONSerializerField(serializers.Field):
             return value.blob
         # try:
         #     return json.loads(value)
-        except:
+        except BaseException:
             return value
 
 
@@ -66,8 +65,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class MapStoreResourceSerializer(serializers.HyperlinkedModelSerializer):
-    user  = serializers.CharField(source='user.username',
-                                  read_only=True)
+    user = serializers.CharField(source='user.username',
+                                 read_only=True)
 
     def __init__(self, *args, **kwargs):
         # Instantiate the superclass normally

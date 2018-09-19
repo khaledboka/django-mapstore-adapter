@@ -9,7 +9,6 @@
 #
 #########################################################################
 
-import base64
 import logging
 
 from django.db import models
@@ -55,8 +54,8 @@ class MapStoreResource(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['id',]),
-            models.Index(fields=['name',]),
+            models.Index(fields=['id', ]),
+            models.Index(fields=['name', ]),
         ]
 
 

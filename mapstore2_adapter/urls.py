@@ -15,6 +15,5 @@ from geonode.urls import urlpatterns
 
 
 urlpatterns += [
-    ## include your urls here
     url(r'^mapstore/', include('mapstore2_adapter.api.urls')),
 ]
