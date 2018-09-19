@@ -10,12 +10,13 @@
 #########################################################################
 
 from .conf import settings
+from six import string_types
 
 
 class HookProxy(object):
 
     def __getattr__(self, attr):
-        if not isinstance(settings.MAPSTORE2_ADAPTER_SERIALIZER, basestring):
+        if not isinstance(settings.MAPSTORE2_ADAPTER_SERIALIZER, string_types):
             return getattr(settings.MAPSTORE2_ADAPTER_SERIALIZER, attr)
         else:
             import importlib

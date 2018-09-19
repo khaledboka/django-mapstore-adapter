@@ -17,13 +17,21 @@ except ImportError:
     from django.utils import simplejson as json
 
 from math import atan, exp, log, pi, sin, isnan, isinf
-from urlparse import urljoin
+try:
+    from urlparse import urljoin
+except BaseException:
+    # Python 3+
+    from urllib.parse import urljoin
 
 from mapstore2_adapter import DjangoMapstore2AdapterBaseException
 
 from django.conf import settings
 from django.utils.six.moves import range
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except BaseException:
+    # Django 2.0
+    from django.urls import reverse
 from django.contrib.gis.geos import GEOSGeometry, LinearRing, Point, Polygon
 
 # Constants used for degree to radian conversion, and vice-versa.

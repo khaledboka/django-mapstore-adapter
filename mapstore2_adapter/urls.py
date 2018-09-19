@@ -11,9 +11,13 @@
 
 from django.conf.urls import url, include
 
-from geonode.urls import urlpatterns
 
-
-urlpatterns += [
+_urlpatterns = [
     url(r'^mapstore/', include('mapstore2_adapter.api.urls')),
 ]
+
+try:
+    from geonode.urls import urlpatterns
+    urlpatterns += _urlpatterns
+except BaseException:
+    urlpatterns = _urlpatterns
