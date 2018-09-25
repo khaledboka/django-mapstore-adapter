@@ -46,7 +46,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         viewer_obj = json.loads(viewer)
 
         map_id = None
-        if 'id' in viewer_obj:
+        if 'id' in viewer_obj and viewer_obj['id']:
             map_id = int(viewer_obj['id'])
 
         data = {}
@@ -98,7 +98,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
             # Overlays
             overlays, selected = self.get_overlays(viewer)
-            if selected and not map_id:
+            if selected and selected["name"] and not map_id:
                 # We are generating a Layer Details View
                 center, zoom = self.get_center_and_zoom(viewer_obj['map'], selected)
                 ms2_map['center'] = center
@@ -153,7 +153,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     logger.error(tb)
 
             for overlay in overlays:
-                ms2_map['layers'].append(overlay)
+                if overlay["name"]:
+                    ms2_map['layers'].append(overlay)
 
             data['map'] = ms2_map
         except BaseException:
@@ -185,7 +186,6 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 # traceback.print_exc()
                 tb = traceback.format_exc()
                 logger.error(tb)
-
         return json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
 
     def get_overlays(self, viewer):
