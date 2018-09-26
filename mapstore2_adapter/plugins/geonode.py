@@ -47,7 +47,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
         map_id = None
         if 'id' in viewer_obj and viewer_obj['id']:
-            map_id = int(viewer_obj['id'])
+            try:
+                map_id = int(viewer_obj['id'])
+            except BaseException:
+                pass
 
         data = {}
         data['version'] = 2
@@ -98,7 +101,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
             # Overlays
             overlays, selected = self.get_overlays(viewer)
-            if selected and selected["name"] and not map_id:
+            if selected and selected['name'] and not map_id:
                 # We are generating a Layer Details View
                 center, zoom = self.get_center_and_zoom(viewer_obj['map'], selected)
                 ms2_map['center'] = center
@@ -153,7 +156,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     logger.error(tb)
 
             for overlay in overlays:
-                if overlay["name"]:
+                if 'name' in overlay and overlay['name']:
                     ms2_map['layers'].append(overlay)
 
             data['map'] = ms2_map
@@ -284,6 +287,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
                                 featureInfo['template'] = _template
                                 overlay['featureInfo'] = featureInfo
+
+                        if 'extraParams' in layer and layer['extraParams']:
+                            overlay['extraParams'] = layer['extraParams']
 
                     overlays.append(overlay)
                     if not selected or ('selected' in layer and layer['selected']):
