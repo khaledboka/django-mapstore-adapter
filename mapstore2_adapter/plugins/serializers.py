@@ -152,6 +152,7 @@ class GeoNodeSerializer(object):
                     for _lyr in _map_obj['layers']:
                         _lyr_context = None
                         try:
+                            # Retrieve the Layer Params back from GeoNode
                             _gn_layer = layer_detail(
                                 caller.request,
                                 _lyr['name'])
@@ -166,6 +167,15 @@ class GeoNodeSerializer(object):
                             tb = traceback.format_exc()
                             logger.error(tb)
 
+                        # Store the Widget ID into the Layer Params of GeoNode
+                        if 'widgetsConfig' in data and 'widgets' in data['widgetsConfig']:
+                            for _widget in data['widgetsConfig']['widgets']:
+                                if 'layer' in _widget and 'name' in _widget['layer']:
+                                    if _widget['layer']['name'] == _lyr['name']:
+                                        if 'id' in _widget['layer']:
+                                            _lyr['extraParams'] = {"msId": _widget['layer']['id']}
+
+                        # Store the Capabilities Document into the Layer Params of GeoNode
                         if _lyr_context:
                             if 'capability' in _lyr_context:
                                 _lyr['capability'] = _lyr_context['capability']
