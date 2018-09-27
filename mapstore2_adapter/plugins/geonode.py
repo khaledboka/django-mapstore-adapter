@@ -101,7 +101,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
             # Overlays
             overlays, selected = self.get_overlays(viewer)
-            if selected and selected['name'] and not map_id:
+            if selected and 'name' in selected and selected['name'] and not map_id:
                 # We are generating a Layer Details View
                 center, zoom = self.get_center_and_zoom(viewer_obj['map'], selected)
                 ms2_map['center'] = center
@@ -288,9 +288,13 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 featureInfo['template'] = _template
                                 overlay['featureInfo'] = featureInfo
 
-                        if 'extraParams' in layer and layer['extraParams']:
-                            overlay['extraParams'] = layer['extraParams']
+                            # Push extraParams into GeoNode layerParams
+                            if 'extraParams' in layer and layer['extraParams']:
+                                overlay['extraParams'] = layer['extraParams']
 
+                    # Restore the id of ms2 layer
+                    if "extraParams" in layer and "msId" in layer["extraParams"]:
+                        overlay["id"] = layer["extraParams"]["msId"]
                     overlays.append(overlay)
                     if not selected or ('selected' in layer and layer['selected']):
                         selected = overlay

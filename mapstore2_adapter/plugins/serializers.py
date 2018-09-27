@@ -166,14 +166,9 @@ class GeoNodeSerializer(object):
                         except BaseException:
                             tb = traceback.format_exc()
                             logger.error(tb)
-
-                        # Store the Widget ID into the Layer Params of GeoNode
-                        if 'widgetsConfig' in data and 'widgets' in data['widgetsConfig']:
-                            for _widget in data['widgetsConfig']['widgets']:
-                                if 'layer' in _widget and 'name' in _widget['layer']:
-                                    if _widget['layer']['name'] == _lyr['name']:
-                                        if 'id' in _widget['layer']:
-                                            _lyr['extraParams'] = {"msId": _widget['layer']['id']}
+                        # Store ms2 layer id
+                        if "id" in _lyr and _lyr["id"]:
+                             _lyr['extraParams'] = {"msId": _lyr["id"]}
 
                         # Store the Capabilities Document into the Layer Params of GeoNode
                         if _lyr_context:
