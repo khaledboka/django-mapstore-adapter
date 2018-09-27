@@ -156,7 +156,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     logger.error(tb)
 
             for overlay in overlays:
-                if overlay["name"]:
+                if 'name' in overlay and overlay['name']:
                     ms2_map['layers'].append(overlay)
 
             data['map'] = ms2_map
