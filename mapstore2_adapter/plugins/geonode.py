@@ -288,8 +288,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 featureInfo['template'] = _template
                                 overlay['featureInfo'] = featureInfo
 
-                                if 'extraParams' in layer and layer['extraParams']:
-                                    overlay['extraParams'] = layer['extraParams']
+                            # Push extraParams into GeoNode layerParams
+                            if 'extraParams' in layer and layer['extraParams']:
+                                overlay['extraParams'] = layer['extraParams']
 
                     # Restore the id of ms2 layer
                     if "extraParams" in layer and "msId" in layer["extraParams"]:
