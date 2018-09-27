@@ -47,7 +47,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
         map_id = None
         if 'id' in viewer_obj and viewer_obj['id']:
-            map_id = int(viewer_obj['id'])
+            try:
+                map_id = int(viewer_obj['id'])
+            except BaseException:
+                pass
 
         data = {}
         data['version'] = 2
