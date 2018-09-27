@@ -66,29 +66,33 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             ms2_map['maxResolution'] = viewer_obj['map']['maxResolution']
 
             # Backgrouns
-            ms2_map['layers'] = MAP_BASELAYERS + [
-                # TODO: covnert Viewer Backgroun Layers
-                # Add here more backgrounds e.g.:
-                # {
-                # 	"type": "wms",
-                # 	"url": "https://demo.geo-solutions.it/geoserver/wms",
-                # 	"visibility": True,
-                # 	"opacity": 0.5,
-                # 	"title": "Weather data",
-                # 	"name": "nurc:Arc_Sample",
-                # 	"group": "Meteo",
-                # 	"format": "image/png",
-                # 	"bbox": {
-                # 		"bounds": {
-                # 			"minx": -25.6640625,
-                # 			"miny": 26.194876675795218,
-                # 			"maxx": 48.1640625,
-                # 			"maxy": 56.80087831233043
-                # 		},
-                # 		"crs": "EPSG:4326"
-                # 	}
-                # }, ...
-            ]
+            backgrounds = self.getBackgrounds(viewer, MAP_BASELAYERS)
+            if backgrounds:
+                ms2_map['layers'] = backgrounds
+            else:
+                ms2_map['layers'] = MAP_BASELAYERS + [
+                    # TODO: covnert Viewer Background Layers
+                    # Add here more backgrounds e.g.:
+                    # {
+                    # 	"type": "wms",
+                    # 	"url": "https://demo.geo-solutions.it/geoserver/wms",
+                    # 	"visibility": True,
+                    # 	"opacity": 0.5,
+                    # 	"title": "Weather data",
+                    # 	"name": "nurc:Arc_Sample",
+                    # 	"group": "Meteo",
+                    # 	"format": "image/png",
+                    # 	"bbox": {
+                    # 		"bounds": {
+                    # 			"minx": -25.6640625,
+                    # 			"miny": 26.194876675795218,
+                    # 			"maxx": 48.1640625,
+                    # 			"maxy": 56.80087831233043
+                    # 		},
+                    # 		"crs": "EPSG:4326"
+                    # 	}
+                    # }, ...
+                ]
 
             # Security Info
             info = {}
@@ -190,6 +194,25 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 tb = traceback.format_exc()
                 logger.error(tb)
         return json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
+
+    def getBackgrounds(self, viewer, defaults):
+        backgrounds = list(defaults)
+        try:
+            viewer_obj = json.loads(viewer)
+            layers = viewer_obj['map']['layers']
+            sources = viewer_obj['sources']
+            for layer in layers:
+                if 'group' in layer and layer['group'] == "background":
+                    source = sources[layer['source']]
+                    def_background = [bg for bg in defaults if bg['name'] == layer['name']]
+                    background = def_background[0] if def_background else None
+                    if background:
+                        background['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
+                        background['visibility'] = layer['visibility'] if 'visibility' in layer else False
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.error(tb)
+        return backgrounds
 
     def get_overlays(self, viewer):
         overlays = []
