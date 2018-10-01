@@ -104,7 +104,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             ms2_map['info'] = info
 
             # Overlays
-            overlays, selected = self.get_overlays(viewer)
+            overlays, selected = self.get_overlays(viewer, request=request)
             if selected and 'name' in selected and selected['name'] and not map_id:
                 # We are generating a Layer Details View
                 center, zoom = self.get_center_and_zoom(viewer_obj['map'], selected)
@@ -214,7 +214,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             logger.error(tb)
         return backgrounds
 
-    def get_overlays(self, viewer):
+    def get_overlays(self, viewer, request=None):
         overlays = []
         selected = None
         try:
@@ -254,7 +254,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 overlay['llbbox'] = capa['llbbox']
                             if 'storeType' in capa and capa['storeType'] == 'dataStore':
                                 overlay['search'] = {
-                                    "url": get_wfs_endpoint(),
+                                    "url": get_wfs_endpoint(request),
                                     "type": "wfs"
                                 }
                             if 'bbox' in capa:
