@@ -198,12 +198,11 @@ class GoogleZoom(object):
 def get_wfs_endpoint(request):
     try:
         if request and request.user and request.user.is_authenticated():
-            wfs_url = urljoin(settings.SITEURL, reverse('wfs_endpoint'))
+            wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
         else:
             wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
     except BaseException:
-        # wfs_url = urljoin(ogc_settings.PUBLIC_LOCATION, 'ows')
-        pass
+        wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
     return wfs_url
 
 
