@@ -174,6 +174,10 @@ class GeoNodeSerializer(object):
                         if _lyr_context:
                             if 'capability' in _lyr_context:
                                 _lyr['capability'] = _lyr_context['capability']
+                            if 'source' in _lyr_context:
+                                _source = _map_conf['sources'][_lyr_context['source']]
+                                if 'remote' in _source and _source['remote'] == True:
+                                    _lyr['source'] = _lyr_context['source']
                         elif 'source' in _lyr:
                             _map_conf['sources'][_lyr['source']] = {}
 
