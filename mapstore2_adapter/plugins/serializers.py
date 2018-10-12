@@ -149,6 +149,7 @@ class GeoNodeSerializer(object):
                 from geonode.layers.views import layer_detail
                 _map_obj = data.pop('map', None)
                 if _map_obj:
+                    _map_bbox = []
                     for _lyr in _map_obj['layers']:
                         _lyr_context = None
                         try:
@@ -174,12 +175,45 @@ class GeoNodeSerializer(object):
                         if _lyr_context:
                             if 'capability' in _lyr_context:
                                 _lyr['capability'] = _lyr_context['capability']
+                                if 'bbox' in _lyr_context['capability']:
+                                    _lyr_bbox = _lyr_context['capability']['bbox']
+                                    if _map_obj['projection'] in _lyr_bbox:
+                                        if len(_map_bbox) == 0:
+                                            _map_bbox = _lyr_bbox[_map_obj['projection']]['bbox']
+                                        else:
+                                            from geonode.utils import bbox_to_wkt
+                                            from django.contrib.gis.geos import GEOSGeometry
+
+                                            x0 = _lyr_bbox[_map_obj['projection']]['bbox'][0]
+                                            x1 = _lyr_bbox[_map_obj['projection']]['bbox'][2]
+                                            y0 = _lyr_bbox[_map_obj['projection']]['bbox'][1]
+                                            y1 = _lyr_bbox[_map_obj['projection']]['bbox'][3]
+                                            _l_wkt = bbox_to_wkt(x0, x1, y0, y1,
+                                                                 srid=_map_obj['projection'])
+                                            _m_wkt = bbox_to_wkt(_map_bbox[0], _map_bbox[1],
+                                                                 _map_bbox[2], _map_bbox[3],
+                                                                 srid=_map_obj['projection'])
+                                            _map_srid = int(_map_obj['projection'][5:])
+                                            _l_poly = GEOSGeometry(_l_wkt, srid=_map_srid)
+                                            _m_poly = GEOSGeometry(_m_wkt, srid=_map_srid).union(_l_poly)
+                                            _map_bbox = _m_poly.extent
                             if 'source' in _lyr_context:
                                 _source = _map_conf['sources'][_lyr_context['source']]
                                 if 'remote' in _source and _source['remote'] == True:
                                     _lyr['source'] = _lyr_context['source']
                         elif 'source' in _lyr:
                             _map_conf['sources'][_lyr['source']] = {}
+
+                    # Update Map BBox
+                    if not _map_bbox or len(_map_bbox) != 4:
+                        _map_bbox = _map_obj['maxExtent']
+
+                    # Must be in the form : [x0, x1, y0, y1]
+                    _map_obj['bbox'] = [_map_bbox[0], _map_bbox[1],
+                                        _map_bbox[2], _map_bbox[3]]
+                    print(" ---------------------------------------------------- ")
+                    print(_map_obj['bbox'])
+                    print(" ---------------------------------------------------- ")
 
                     if not map_obj:
                         # Create a new GeoNode Map
@@ -189,7 +223,13 @@ class GeoNodeSerializer(object):
                             owner=caller.request.user,
                             center_x=_map_obj['center']['x'],
                             center_y=_map_obj['center']['y'],
-                            zoom=_map_obj['zoom'])
+                            projection=_map_obj['projection'],
+                            zoom=_map_obj['zoom'],
+                            bbox_x0=_map_obj['bbox'][0],
+                            bbox_x1=_map_obj['bbox'][1],
+                            bbox_y0=_map_obj['bbox'][2],
+                            bbox_y1=_map_obj['bbox'][3],
+                            srid=_map_obj['projection'])
                         map_obj.save()
 
                     # Update GeoNode Map
