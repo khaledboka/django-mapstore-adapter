@@ -18,12 +18,12 @@ settings.ROOT_URLCONF = '{}.urls'.format(PROJECT_NAME)
 
 try:
     settings.TEMPLATES[0]['OPTIONS']['context_processors'] += ['mapstore2_adapter.context_processors.resource_urls',]
-except:
+except BaseException:
     pass
 
 try:
     settings.LOGGING["loggers"]["mapstore2_adapter"] = {"handlers": ["console"], "level": "INFO", }
-except:
+except BaseException:
     pass
 
 settings.MAPSTORE2_ADAPTER_SERIALIZER = "mapstore2_adapter.plugins.serializers.GeoNodeSerializer"

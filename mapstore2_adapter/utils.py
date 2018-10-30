@@ -11,12 +11,12 @@
 
 from __future__ import unicode_literals
 
+from math import atan, exp, log, pi, sin, tan, floor, isnan, isinf
 try:
     import json
 except ImportError:
     from django.utils import simplejson as json
 
-from math import atan, exp, log, pi, sin, isnan, isinf
 try:
     from urlparse import urljoin
 except BaseException:
@@ -152,6 +152,16 @@ class GoogleZoom(object):
 
         # Constructing the Polygon, representing the tile and returning.
         return Polygon(LinearRing(ll, (ll[0], ur[1]), ur, (ur[0], ll[1]), ll), srid=4326)
+
+    def get_bounds_zoom(self, bounds, srid=4326):
+        "Returns the optimal Zoom level for the given geometry."
+        geom = Polygon((
+            (bounds[0], bounds[1]),
+            (bounds[0], bounds[3]),
+            (bounds[2], bounds[3]),
+            (bounds[2], bounds[1]),
+            (bounds[0], bounds[1])), srid=srid)
+        return self.get_zoom(geom)
 
     def get_zoom(self, geom):
         "Returns the optimal Zoom level for the given geometry."
