@@ -161,12 +161,14 @@ class GeoNodeSerializer(object):
                                 _context_data = json.loads(_gn_layer.context_data['viewer'])
                                 for _gn_layer_ctx in _context_data['map']['layers']:
                                     if 'name' in _gn_layer_ctx and _gn_layer_ctx['name'] == _lyr['name']:
+                                        if 'style' in _lyr:
+                                            _lyr_context['style'] = _lyr['style']
                                         _lyr_context = _gn_layer_ctx
                                         _src_idx = _lyr_context['source']
                                         _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
                         except BaseException:
                             tb = traceback.format_exc()
-                            logger.error(tb)
+                            logger.debug(tb)
                         # Store ms2 layer id
                         if "id" in _lyr and _lyr["id"]:
                              _lyr['extraParams'] = {"msId": _lyr["id"]}
@@ -198,6 +200,7 @@ class GeoNodeSerializer(object):
                                             _l_poly = GEOSGeometry(_l_wkt, srid=_map_srid)
                                             _m_poly = GEOSGeometry(_m_wkt, srid=_map_srid).union(_l_poly)
                                             _map_bbox = _m_poly.extent
+
                             if 'source' in _lyr_context:
                                 _source = _map_conf['sources'][_lyr_context['source']]
                                 if 'remote' in _source and _source['remote'] == True:

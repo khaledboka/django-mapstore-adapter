@@ -238,12 +238,16 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         overlay['name'] = layer['name'] if 'name' in layer else ''
                         overlay['group'] = layer['group'] if 'group' in layer else ''
                         overlay['format'] = layer['format'] if 'format' in layer else "image/png"
-
                         overlay['bbox'] = {}
+                        if 'style' in layer:
+                            overlay['style'] = layer['style']
+
                         if 'capability' in layer:
                             capa = layer['capability']
                             if 'styles' in capa:
                                 overlay['styles'] = capa['styles']
+                            if 'style' in capa:
+                                overlay['style'] = capa['style']
                             if 'abstract' in capa:
                                 overlay['abstract'] = capa['abstract']
                             if 'attribution' in capa:
