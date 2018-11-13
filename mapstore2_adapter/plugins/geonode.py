@@ -129,7 +129,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         info['canDelete'] = True
                 except BaseException:
                     tb = traceback.format_exc()
-                    logger.error(tb)
+                    logger.debug(tb)
             else:
                 # We are getting the configuration of a Map
                 # On GeoNode model the Map Center is always saved in 4326
@@ -157,7 +157,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         info['canDelete'] = True
                 except BaseException:
                     tb = traceback.format_exc()
-                    logger.error(tb)
+                    logger.debug(tb)
 
             for overlay in overlays:
                 if 'name' in overlay and overlay['name']:
@@ -167,7 +167,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         except BaseException:
             # traceback.print_exc()
             tb = traceback.format_exc()
-            logger.error(tb)
+            logger.debug(tb)
 
         # Default Catalogue Services Definition
         try:
@@ -178,7 +178,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         except BaseException:
             # traceback.print_exc()
             tb = traceback.format_exc()
-            logger.error(tb)
+            logger.debug(tb)
 
         # Additional Configurations
         if map_id:
@@ -192,11 +192,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             except BaseException:
                 # traceback.print_exc()
                 tb = traceback.format_exc()
-                logger.error(tb)
+                logger.debug(tb)
         return json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
 
     def getBackgrounds(self, viewer, defaults):
-        backgrounds = list(defaults)
+        backgrounds = []
         try:
             viewer_obj = json.loads(viewer)
             layers = viewer_obj['map']['layers']
@@ -209,9 +209,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     if background:
                         background['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
                         background['visibility'] = layer['visibility'] if 'visibility' in layer else False
+                        backgrounds.append(background)
         except BaseException:
+            backgrounds = list(defaults)
             tb = traceback.format_exc()
-            logger.error(tb)
+            logger.debug(tb)
         return backgrounds
 
     def get_overlays(self, viewer, request=None):
@@ -323,7 +325,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         selected = overlay
         except BaseException:
             tb = traceback.format_exc()
-            logger.error(tb)
+            logger.debug(tb)
 
         return (overlays, selected)
 
@@ -377,10 +379,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 center = (0, 0)
                 zoom = 0
                 tb = traceback.format_exc()
-                logger.error(tb)
+                logger.debug(tb)
         except BaseException:
             tb = traceback.format_exc()
-            logger.error(tb)
+            logger.debug(tb)
 
         return (center, zoom)
 
