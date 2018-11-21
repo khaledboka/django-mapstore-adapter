@@ -25,12 +25,16 @@ from ..utils import (GoogleZoom,
                      to_json)
 from ..settings import (MAP_BASELAYERS,
                         CATALOGUE_SERVICES,
-                        CATALOGUE_SELECTED_SERVICE)
+                        CATALOGUE_SELECTED_SERVICE
+                        )
+
 from ..converters import BaseMapStore2ConfigConverter
 
 from django.contrib.gis.geos import Polygon
 from django.contrib.gis.gdal import SpatialReference, CoordTransform
 from django.core.serializers.json import DjangoJSONEncoder
+from django.conf import settings
+
 
 logger = logging.getLogger(__name__)
 
@@ -241,7 +245,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         overlay['bbox'] = {}
                         if 'style' in layer:
                             overlay['style'] = layer['style']
-
+                        
                         if 'capability' in layer:
                             capa = layer['capability']
                             if 'styles' in capa:
@@ -255,7 +259,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                             if 'keywords' in capa:
                                 overlay['keywords'] = capa['keywords']
                             if 'dimensions' in capa and capa['dimensions']:
-                                overlay['dimensions'] = capa['dimensions']
+                                overlay['dimensions'] = self.get_layer_dimensions(dimensions=capa['dimensions'])
                             if 'llbbox' in capa:
                                 overlay['llbbox'] = capa['llbbox']
                             if 'storeType' in capa and capa['storeType'] == 'dataStore':
@@ -320,6 +324,14 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                             # Push extraParams into GeoNode layerParams
                             if 'extraParams' in layer and layer['extraParams']:
                                 overlay['extraParams'] = layer['extraParams']
+                            if 'dimensions' in overlay and 'time' in overlay['dimensions']:
+                                 time = {}
+                                 time['name'] = 'time'
+                                 time['source'] = {}
+                                 time['source']['type'] = 'multidim-extension'
+                                 time['source']['url'] = 'http://localhost:8080/geoserver/gwc/service/wmts'
+                                 overlay['dimensions'] = [time]
+                                
 
                     # Restore the id of ms2 layer
                     if "extraParams" in layer and "msId" in layer["extraParams"]:
@@ -333,6 +345,21 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
         return (overlays, selected)
 
+    def get_layer_dimensions(self, dimensions):
+        gs = getattr(settings, "PUBLIC_GEOSERVER", "")
+        url = gs["source"]["url"]
+        if url.endswith('ows'):
+            url = url[:-3]
+        print(url)
+        dim = []
+        for attr, value in dimensions.items():
+            if attr == "time":
+                nVal = {"name": attr, "source": {"type": "multidim-extension", "url": url }}
+                dim.append(nVal)
+            else:
+                value["name"] = attr
+                dim.append(value)
+        return dimensions
     def get_center_and_zoom(self, view_map, overlay):
         center = {
             "x": get_valid_number(overlay['bbox']['bounds']['minx'] +
