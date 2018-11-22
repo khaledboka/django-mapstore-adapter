@@ -345,7 +345,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         dim = []
         for attr, value in dimensions.items():
             if attr == "time":
-                nVal = {"name": attr, "source": {"type": "multidim-extension", "url": url }}
+                nVal = {"name": attr, "source": {"type": "multidim-extension", "url": url + "gwc/servcie/wmts"}}
                 dim.append(nVal)
             else:
                 value["name"] = attr
