@@ -338,19 +338,19 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         return (overlays, selected)
 
     def get_layer_dimensions(self, dimensions):
-        gs = getattr(settings, "GEOSERVER_PUBLIC_LOCATION", "")
-        url = gs["source"]["url"]
+        url = getattr(settings, "GEOSERVER_PUBLIC_LOCATION", "")
         if url.endswith('ows'):
             url = url[:-3]
+        url += "gwc/service/wmts"
         dim = []
         for attr, value in dimensions.items():
             if attr == "time":
-                nVal = {"name": attr, "source": {"type": "multidim-extension", "url": url + "gwc/servcie/wmts"}}
+                nVal = {"name": attr, "source": {"type": "multidim-extension", "url": url}}
                 dim.append(nVal)
             else:
                 value["name"] = attr
                 dim.append(value)
-        return dimensions
+        return dim
     def get_center_and_zoom(self, view_map, overlay):
         center = {
             "x": get_valid_number(overlay['bbox']['bounds']['minx'] +
