@@ -324,14 +324,6 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                             # Push extraParams into GeoNode layerParams
                             if 'extraParams' in layer and layer['extraParams']:
                                 overlay['extraParams'] = layer['extraParams']
-                            if 'dimensions' in overlay and 'time' in overlay['dimensions']:
-                                 time = {}
-                                 time['name'] = 'time'
-                                 time['source'] = {}
-                                 time['source']['type'] = 'multidim-extension'
-                                 time['source']['url'] = 'http://localhost:8080/geoserver/gwc/service/wmts'
-                                 overlay['dimensions'] = [time]
-                                
 
                     # Restore the id of ms2 layer
                     if "extraParams" in layer and "msId" in layer["extraParams"]:
@@ -346,11 +338,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         return (overlays, selected)
 
     def get_layer_dimensions(self, dimensions):
-        gs = getattr(settings, "PUBLIC_GEOSERVER", "")
+        gs = getattr(settings, "GEOSERVER_PUBLIC_LOCATION", "")
         url = gs["source"]["url"]
         if url.endswith('ows'):
             url = url[:-3]
-        print(url)
         dim = []
         for attr, value in dimensions.items():
             if attr == "time":
