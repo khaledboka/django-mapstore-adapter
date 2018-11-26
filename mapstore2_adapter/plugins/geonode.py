@@ -217,7 +217,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         background['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
                         background['visibility'] = layer['visibility'] if 'visibility' in layer else False
         except BaseException:
-            backgrounds = list(defaults)
+            backgrounds = copy.copy(defaults)
             tb = traceback.format_exc()
             logger.debug(tb)
         return backgrounds
@@ -247,7 +247,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         overlay['bbox'] = {}
                         if 'style' in layer:
                             overlay['style'] = layer['style']
-                        
+
                         if 'capability' in layer:
                             capa = layer['capability']
                             if 'styles' in capa:
