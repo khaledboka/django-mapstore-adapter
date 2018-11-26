@@ -196,7 +196,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         return json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
 
     def getBackgrounds(self, viewer, defaults):
-        backgrounds = []
+        import copy
+        backgrounds = copy.copy(defaults)
+        for bg in backgrounds:
+            bg['visibility'] = False
         try:
             viewer_obj = json.loads(viewer)
             layers = viewer_obj['map']['layers']
@@ -204,12 +207,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             for layer in layers:
                 if 'group' in layer and layer['group'] == "background":
                     source = sources[layer['source']]
-                    def_background = [bg for bg in defaults if bg['name'] == layer['name']]
+                    def_background = [bg for bg in backgrounds if bg['name'] == layer['name']]
                     background = def_background[0] if def_background else None
                     if background:
                         background['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
                         background['visibility'] = layer['visibility'] if 'visibility' in layer else False
-                        backgrounds.append(background)
         except BaseException:
             backgrounds = list(defaults)
             tb = traceback.format_exc()
