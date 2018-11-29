@@ -375,14 +375,6 @@ DEFAULT_MS2_BACKGROUNDS = [{
     "group": "background",
     "visibility": False
 }, {
-    "type": "bing",
-    "title": "Bing Aerial",
-    "apiKey": "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf",
-    "name": "Aerial",
-    "source": "bing",
-    "group": "background",
-    "visibility": False
-}, {
     "type": "tileprovider",
     "title": "NASAGIBS Night 2012",
     "provider": "NASAGIBS.ViirsEarthAtNight2012",
@@ -398,30 +390,6 @@ DEFAULT_MS2_BACKGROUNDS = [{
     "name": "rv1",
     "group": "background",
     "format": "image/jpeg"
-}, {
-    "type": "wms",
-    "url": "https://demo.geo-solutions.it/geoserver/wms",
-    "visibility": False,
-    "title": "Natural Earth",
-    "name": "sde:NE2_HR_LC_SR_W_DR",
-    "group": "background",
-    "format": "image/png"
-}, {
-    "type": "wms",
-    "url": "https://demo.geo-solutions.it/geoserver/wms",
-    "visibility": False,
-    "title": "Hypsometric",
-    "name": "sde:HYP_HR_SR_OB_DR",
-    "group": "background",
-    "format": "image/png"
-}, {
-    "type": "wms",
-    "url": "https://demo.geo-solutions.it/geoserver/wms",
-    "visibility": False,
-    "title": "Gray Earth",
-    "name": "sde:GRAY_HR_SR_OB_DR",
-    "group": "background",
-    "format": "image/png"
 }, {
     "type": "tileprovider",
     "title": "OpenTopoMap",
