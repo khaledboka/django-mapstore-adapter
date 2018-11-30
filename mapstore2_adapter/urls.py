@@ -9,7 +9,9 @@
 #
 #########################################################################
 
+from django.conf import settings
 from django.conf.urls import url, include
+from django.utils.module_loading import import_string
 
 
 _urlpatterns = [
@@ -17,7 +19,9 @@ _urlpatterns = [
 ]
 
 try:
-    from geonode.urls import urlpatterns
+    # from geonode.urls import urlpatterns
+    app_label = getattr(settings, 'PROJECT_NAME', 'geonode')
+    urlpatterns = import_string("%s.urls.urlpatterns" % app_label)
     urlpatterns += _urlpatterns
 except BaseException:
     urlpatterns = _urlpatterns
