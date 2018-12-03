@@ -371,8 +371,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                    get_valid_number(overlay['bbox']['bounds']['maxx']),
                    get_valid_number(overlay['bbox']['bounds']['maxy']), ]
         ov_crs = overlay['bbox']['crs']
-        (center_m, zoom_m) = self.project_to_mercator(ov_bbox, ov_crs, center)
-        if center_m and zoom_m:
+        (center_m, zoom_m) = self.project_to_mercator(ov_bbox, ov_crs, center=center)
+        if center_m is not None and zoom_m is not None:
             return (center_m, zoom_m)
         else:
             return (center, zoom)
