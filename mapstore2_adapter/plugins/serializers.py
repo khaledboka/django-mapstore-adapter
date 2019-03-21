@@ -151,7 +151,7 @@ class GeoNodeSerializer(object):
                 if _map_obj:
                     _map_bbox = []
                     for _lyr in _map_obj['layers']:
-                        _lyr_context = None
+                        _lyr_context = {}
                         try:
                             # Retrieve the Layer Params back from GeoNode
                             _gn_layer = layer_detail(
