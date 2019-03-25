@@ -24,6 +24,7 @@ except ImportError:
 import base64
 import logging
 import traceback
+from django.http import Http404
 
 logger = logging.getLogger(__name__)
 
@@ -166,10 +167,12 @@ class GeoNodeSerializer(object):
                                         _lyr_context = _gn_layer_ctx
                                         _src_idx = _lyr_context['source']
                                         _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
-                        except BaseException:
+                        except Http404:
                             tb = traceback.format_exc()
-                            logger.debug(tb)
-                        # Store ms2 layer id
+                            logger.error(tb)
+                        except BaseException:
+                            raise
+                        # Store ms2 layer idq
                         if "id" in _lyr and _lyr["id"]:
                              _lyr['extraParams'] = {"msId": _lyr["id"]}
 
@@ -203,7 +206,7 @@ class GeoNodeSerializer(object):
 
                             if 'source' in _lyr_context:
                                 _source = _map_conf['sources'][_lyr_context['source']]
-                                if 'remote' in _source and _source['remote'] == True:
+                                if 'remote' in _source and _source['remote'] is True:
                                     _lyr['source'] = _lyr_context['source']
                         elif 'source' in _lyr:
                             _map_conf['sources'][_lyr['source']] = {}

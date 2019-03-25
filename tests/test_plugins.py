@@ -14,12 +14,13 @@ from __future__ import unicode_literals
 
 import logging
 import mock
+from geonode.layers.models import Layer
+from geonode.maps.models import Map
 from django.contrib.auth import get_user_model
 from geonode.tests.base import GeoNodeBaseTestSupport
 from mapstore2_adapter.plugins.serializers import GeoNodeSerializer
 from collections import OrderedDict
 import copy
-from geonode.maps.models import Map
 
 logger = logging.getLogger(__name__)
 
@@ -369,6 +370,26 @@ class TestGeoNodeSerializer(GeoNodeBaseTestSupport):
         # Mock caller and serializer
         serializer.validated_data = OrderedDict([(u'name', u'map_test')])
         caller.request.user = self.foo_user
+        # Geonode Layer creation
+        for layer in REQUEST_DATA['data']['map']['layers']:
+            if not layer['group'] == u'background':
+                _l = Layer.objects.create(
+                    name=layer['name'],
+                    bbox_x0=layer['bbox']['bounds']['minx'],
+                    bbox_x1=layer['bbox']['bounds']['maxx'],
+                    bbox_y0=layer['bbox']['bounds']['miny'],
+                    bbox_y1=layer['bbox']['bounds']['maxy'],
+                    srid='EPSG:3857',
+                    has_time=True if 'time' in [
+                        d['name'] for d in layer['dimensions'] if 'dimensions' in layer
+                    ] else False
+                )
+                _l.alternate = layer['name']
+                _l.save()
+                # Check the layer has been created
+                self.assertTrue(
+                    Layer.objects.filter(name=layer['name']).count() == 1
+                )
         # Call the function
         self.geonode_serializer.set_geonode_map(
             caller=caller,
@@ -400,6 +421,3 @@ class TestGeoNodeSerializer(GeoNodeBaseTestSupport):
             self.assertEquals(map_layer['opacity'], layer.opacity)
             # Visibility
             self.assertEquals(map_layer['visibility'], layer.visibility)
-
-
-
