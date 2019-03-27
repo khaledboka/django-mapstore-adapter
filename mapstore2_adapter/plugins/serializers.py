@@ -169,7 +169,7 @@ class GeoNodeSerializer(object):
                                         _map_conf['sources'][_src_idx] = _context_data['sources'][_src_idx]
                         except Http404:
                             tb = traceback.format_exc()
-                            logger.error(tb)
+                            logger.debug(tb)
                         except BaseException:
                             raise
                         # Store ms2 layer idq
