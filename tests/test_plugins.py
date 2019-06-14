@@ -267,7 +267,7 @@ REQUEST_DATA = {
                             u'name': u'time',
                             u'source': {
                                 u'type': u'multidim-extension',
-                                u'url': u'http://localhost:8080/gs/gwc/service/wmts'
+                                u'url': u'http://localhost:8080/geoserver/gwc/service/wmts'
                             }
                         }
                     ],
@@ -285,7 +285,7 @@ REQUEST_DATA = {
                     u'opacity': 1,
                     u'search': {
                         u'type': u'wfs',
-                        u'url': u'http://localhost:8000/gs/ows'
+                        u'url': u'http://localhost:8080/geoserver/ows'
                     },
                     u'singleTile': False,
                     u'style': u'geonode:test',

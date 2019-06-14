@@ -13,8 +13,7 @@ from django.conf import settings
 
 
 # Location of url mappings
-PROJECT_NAME = 'mapstore2_adapter'
-settings.ROOT_URLCONF = '{}.urls'.format(PROJECT_NAME)
+settings.ROOT_URLCONF = 'mapstore2_adapter.urls'
 
 try:
     settings.TEMPLATES[0]['OPTIONS']['context_processors'] += ['mapstore2_adapter.context_processors.resource_urls',]

@@ -20,7 +20,7 @@ _urlpatterns = [
 
 try:
     # from geonode.urls import urlpatterns
-    app_label = getattr(settings, 'PROJECT_NAME', 'geonode')
+    app_label = 'geonode'
     urlpatterns = import_string("%s.urls.urlpatterns" % app_label)
     urlpatterns += _urlpatterns
 except BaseException:
