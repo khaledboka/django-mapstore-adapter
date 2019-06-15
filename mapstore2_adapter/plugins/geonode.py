@@ -207,10 +207,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         try:
             viewer_obj = json.loads(viewer)
             layers = viewer_obj['map']['layers']
-            sources = viewer_obj['sources']
+            # sources = viewer_obj['sources']
             for layer in layers:
                 if 'group' in layer and layer['group'] == "background":
-                    source = sources[layer['source']]
+                    # source = sources[layer['source']]
                     def_background = [bg for bg in backgrounds if bg['name'] == layer['name']]
                     background = def_background[0] if def_background else None
                     if background:
@@ -239,12 +239,28 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                             source['ptype'] != 'gxp_arcrestsource' else 'arcgis'
                         overlay['url'] = source['url']
                         overlay['visibility'] = layer['visibility'] if 'visibility' in layer else True
+                        overlay['singleTile'] = layer['singleTile'] if 'singleTile' in layer else False
+                        overlay['selected'] = layer['selected'] if 'selected' in layer else False
+                        overlay['hidden'] = layer['hidden'] if 'hidden' in layer else False
+                        overlay['handleClickOnLayer'] = layer['handleClickOnLayer'] if \
+                            'handleClickOnLayer' in layer else False
+                        overlay['wrapDateLine'] = layer['wrapDateLine'] if 'wrapDateLine' in layer else False
+                        overlay['hideLoading'] = layer['hideLoading'] if 'hideLoading' in layer else False
+                        overlay['useForElevation'] = layer['useForElevation'] if 'useForElevation' in layer else False
+                        overlay['fixed'] = layer['fixed'] if 'fixed' in layer else False
                         overlay['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
                         overlay['title'] = layer['title'] if 'title' in layer else ''
                         overlay['name'] = layer['name'] if 'name' in layer else ''
                         overlay['group'] = layer['group'] if 'group' in layer else ''
                         overlay['format'] = layer['format'] if 'format' in layer else "image/png"
                         overlay['bbox'] = {}
+
+                        if 'dimensions' in layer:
+                            overlay['dimensions'] = layer['dimensions']
+
+                        if 'search' in layer:
+                            overlay['search'] = layer['search']
+
                         if 'style' in layer:
                             overlay['style'] = layer['style']
 
@@ -353,14 +369,17 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 value["name"] = attr
                 dim.append(value)
         return dim
+
     def get_center_and_zoom(self, view_map, overlay):
         center = {
-            "x": get_valid_number(overlay['bbox']['bounds']['minx'] +
-                                  (overlay['bbox']['bounds']['maxx'] -
-                                   overlay['bbox']['bounds']['minx']) / 2),
-            "y": get_valid_number(overlay['bbox']['bounds']['miny'] +
-                                  (overlay['bbox']['bounds']['maxy'] -
-                                   overlay['bbox']['bounds']['miny']) / 2),
+            "x": get_valid_number(
+                overlay['bbox']['bounds']['minx'] + (
+                    overlay['bbox']['bounds']['maxx'] - overlay['bbox']['bounds']['minx']
+                ) / 2),
+            "y": get_valid_number(
+                overlay['bbox']['bounds']['miny'] + (
+                    overlay['bbox']['bounds']['maxy'] - overlay['bbox']['bounds']['miny']
+                ) / 2),
             "crs": overlay['bbox']['crs']
         }
         zoom = view_map['zoom']

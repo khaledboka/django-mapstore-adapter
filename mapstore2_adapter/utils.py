@@ -11,7 +11,7 @@
 
 from __future__ import unicode_literals
 
-from math import atan, exp, log, pi, sin, tan, floor, isnan, isinf
+from math import atan, exp, log, pi, sin, isnan, isinf
 try:
     import json
 except ImportError:
@@ -232,7 +232,7 @@ def get_valid_number(number, default=None, complementar=False):
 
 def to_json(config):
     try:
-        basestring
+        basestring  # noqa
     except NameError:
         # Python 3 does not declare basetring anymore
         basestring = str

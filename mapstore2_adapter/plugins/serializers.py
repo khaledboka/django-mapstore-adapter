@@ -174,7 +174,7 @@ class GeoNodeSerializer(object):
                             raise
                         # Store ms2 layer idq
                         if "id" in _lyr and _lyr["id"]:
-                             _lyr['extraParams'] = {"msId": _lyr["id"]}
+                            _lyr['extraParams'] = {"msId": _lyr["id"]}
 
                         # Store the Capabilities Document into the Layer Params of GeoNode
                         if _lyr_context:
