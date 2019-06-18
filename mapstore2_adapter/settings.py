@@ -12,9 +12,6 @@
 from django.conf import settings
 
 
-# Location of url mappings
-settings.ROOT_URLCONF = 'mapstore2_adapter.urls'
-
 try:
     settings.TEMPLATES[0]['OPTIONS']['context_processors'] += ['mapstore2_adapter.context_processors.resource_urls',]
 except BaseException:

@@ -9,6 +9,7 @@
 #
 #########################################################################
 
+import random
 import logging
 
 from django.db import models
@@ -20,14 +21,17 @@ from jsonfield import JSONField
 log = logging.getLogger(__name__)
 
 
+def random_id():
+    return random.randint(1000, 99999)
+
+
 class MapStoreResource(models.Model):
     user = models.ForeignKey(get_user_model())
     id = models.BigIntegerField(
         primary_key=True,
         unique=True,
         editable=True,
-        null=True,
-        blank=True)
+        default=random_id)
     name = models.CharField(
         max_length=255,
         unique=False,
