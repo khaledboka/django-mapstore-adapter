@@ -253,6 +253,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         overlay['name'] = layer['name'] if 'name' in layer else ''
                         overlay['group'] = layer['group'] if 'group' in layer else ''
                         overlay['format'] = layer['format'] if 'format' in layer else "image/png"
+                        overlay['nativeCrs'] = layer['nativeCrs'] if 'nativeCrs' in layer else viewer_obj['map']['projection']
                         overlay['bbox'] = {}
 
                         if 'dimensions' in layer:
@@ -263,6 +264,12 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
                         if 'style' in layer:
                             overlay['style'] = layer['style']
+
+                        if 'styles' in layer:
+                            overlay['styles'] = layer['styles']
+
+                        if 'layerFilter' in layer:
+                            overlay['layerFilter'] = layer['layerFilter']
 
                         if 'capability' in layer:
                             capa = layer['capability']
