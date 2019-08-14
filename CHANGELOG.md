@@ -1,3 +1,49 @@
+### 1.0.4 [2019-08-14]
+
+<li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7d424e0fda71de374ff6a1e4f4818acc0e1d0416" target="blank"> Bump to version = 1.0.4</a></li> 
+<li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/5cf2df180306835e96820479da5f86bd3c90bc61" target="blank"> [Closes #2] Bump urllib3 to 1.25.3</a></li> 
+<li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/57e01b55567672961f8c6b7ca3b9dec18cc425b9" target="blank"> [Fixes #1] Unescaped "ms2_config" may cause JS injection</a></li> 
+<li> 2019-07-25: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/e3e7e0661e0891676b333bf2909be37715706c72" target="blank"> - Bump to 1.0.4a3</a></li> 
+<li> 2019-07-25: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/76118a7362b8df272405e806e0838494ae392351" target="blank"> [Fixes #14] Allow maps to store/reload layer filters</a></li> 
+<li> 2019-07-24: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3b8e2a95b4445a92e62c5573cf74293054ab251e" target="blank"> - Bump to 1.0.4a2</a></li> 
+<li> 2019-07-24: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3b93fe3f325442d3ccd83d2ce938cbf1a8a8ff4b" target="blank"> - Bump to 1.0.4a1</a></li> 
+<li> 2019-07-24: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/fccdd713afb0892372c6c120799949d25e40e590" target="blank"> - Bump to 1.0.4a0</a></li> 
+<li> 2019-07-24: Alessio Fabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/1003d897f1fc7d85eacf613769adc2a2d71c277f" target="blank"> Moved to https://github.com/GeoNode/django-mapstore-adapter</a></li> 
+
+### 1.0.3 [2019-06-18]
+
+<li> 2019-06-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2395d360ffaba6654104791bafa8ef9caf176f6f" target="blank"> - Bump to version 1.0.3</a></li> 
+<li> 2019-06-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/a7bea6204fc324ee444ace6062528fa23d21199f" target="blank"> [Fixes #7] Local settings.py pollutes global settings.py?</a></li> 
+
+### 1.0.1 [2019-06-14]
+
+<li> 2019-06-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/ccb6d87de8076bab52331c7b011fda070f655522" target="blank"> - Bump to version 1.0.1</a></li> 
+
+### 1.0.0 [2019-04-29]
+
+<li> 2019-04-29: Alessio Fabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/838bc7cc7e4f5e18984e31c66ea44bdcbf26f942" target="blank">  - Bump to version 1.0.0</a></li> 
+<li> 2019-03-27: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2a558d7654854b038415162341c29e030de7e493" target="blank"> Fix logging mode</a></li> 
+<li> 2019-03-25: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/e52adfd6b54a6948de797df232302d5a30009b72" target="blank"> Fix catching of exceptions in the geonode serializer</a></li> 
+<li> 2019-03-21: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/f0a310d75372b95455561fac278f190988e00d92" target="blank"> Fix geonode layers context on map save</a></li> 
+<li> 2018-12-03: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/639a902864ea098026545ec3fd9037b167c00d0b" target="blank">  - Fix wrong check with center coords computation</a></li> 
+
+### 0.1.12 [2018-11-30]
+
+<li> 2018-11-30: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/269d2b0fd31c038f14c2b6c99b672c74c3bc22e5" target="blank">  - Bump to version 0.1.12</a></li> 
+<li> 2018-11-30: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/831eb9fc07aee8458c67e03f4487316553e85651" target="blank">  - allow the adapter to fetch urlpatterns from custom project too</a></li> 
+
+### 0.1.11 [2018-11-29]
+
+<li> 2018-11-29: Alessio Fabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/6099727db00b4bcd4ebcb3839c9482ce4d724a13" target="blank">  - bump to version 0.1.11</a></li> 
+<li> 2018-11-29: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/d168b2c0209ed738c8e5ac5a5986ed88650a46d6" target="blank"> - Remove wrong demo layers from settings/README</a></li> 
+<li> 2018-11-26: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7ca4b22943fd959160b0bf89bab4c1896e895716" target="blank"> - fix backgrounds defaults fetching</a></li> 
+<li> 2018-11-26: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/feea004ef55d1270f96acb131a6c5c66cd6576f9" target="blank">  - fix backgrounds defaults fetching</a></li> 
+<li> 2018-11-22: kappu <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/648cff187a37f31c3e3421c95dc6621fe81dfbab" target="blank"> Fixed error in time dimension</a></li> 
+<li> 2018-11-22: kappu <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2cf1b30d9802514a6aaa7a55e13385182fd8f0b2" target="blank"> Fixed wmts url</a></li> 
+<li> 2018-11-22: kappu <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/b8d7e38cf2a971e89f2fcb10da0b51f44e9d2ddb" target="blank"> Fixed typo</a></li> 
+<li> 2018-11-21: kappu <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/fc9ad65b2c7191f975797597344cc43010bb74e2" target="blank"> capability dimensions to layer dimesions</a></li> 
+<li> 2018-11-13: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/8a6a8f50147db4dff1bcf754f217752d6d4f1cef" target="blank">  - Preserve the Style set from the map config</a></li> 
+
 ### 0.0.0 [2018-06-18]
 
 * Discussion with Giovanni Allegri at GeoSolutions S.A.S.
