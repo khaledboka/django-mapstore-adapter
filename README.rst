@@ -1,7 +1,3 @@
-===========================================================
-Moved to https://github.com/GeoNode/django-mapstore-adapter
-===========================================================
-
 Django MapStore2 Adapter
 ========================
 
@@ -15,13 +11,13 @@ Django MapStore2 Adapter
 .. image:: https://badge.fury.io/py/django-mapstore-adapter.svg?service=github
    :target: http://badge.fury.io/py/django-mapstore-adapter
 
-.. image:: https://travis-ci.org/geosolutions-it/django-mapstore-adapter.svg?service=github
+.. image:: https://travis-ci.org/GeoNode/django-mapstore-adapter.svg?service=github
    :alt: Build Status
-   :target: https://travis-ci.org/geosolutions-it/django-mapstore-adapter
+   :target: https://travis-ci.org/GeoNode/django-mapstore-adapter
 
-.. image:: https://coveralls.io/repos/github/geosolutions-it/django-mapstore-adapter/badge.svg?branch=master&service=github
+.. image:: https://coveralls.io/repos/github/GeoNode/django-mapstore-adapter/badge.svg?branch=master&service=github
    :alt: Coverage Status
-   :target: https://coveralls.io/github/geosolutions-it/django-mapstore-adapter?branch=master
+   :target: https://coveralls.io/github/GeoNode/django-mapstore-adapter?branch=master
 
 If you are facing one or more of the following:
  * TODO,
@@ -72,7 +68,7 @@ Notice that `mapstore2_adapter` namespace is mandatory.
 Changelog
 ---------
 
-See `CHANGELOG.md <https://github.com/geosolutions-it/django-mapstore-adapter/blob/master/CHANGELOG.md>`_.
+See `CHANGELOG.md <https://github.com/GeoNode/django-mapstore-adapter/blob/master/CHANGELOG.md>`_.
 
 
 Documentation
