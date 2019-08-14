@@ -38,6 +38,14 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+unsafe_chars = {
+    '&': '\\u0026',
+    '<': '\\u003c',
+    '>': '\\u003e',
+    '\u2028': '\\u2028',
+    '\u2029': '\\u2029'
+}
+
 
 class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
@@ -197,7 +205,12 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 # traceback.print_exc()
                 tb = traceback.format_exc()
                 logger.debug(tb)
-        return json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
+
+        json_str = json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
+        for (c, d) in unsafe_chars.items():
+            json_str = json_str.replace(c, d)
+
+        return json_str
 
     def getBackgrounds(self, viewer, defaults):
         import copy
