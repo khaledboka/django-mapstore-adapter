@@ -1,3 +1,11 @@
+### 1.0.5 [2019-08-22]
+
+<li> 2019-08-21: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/6b852ed98a2ac03d395e30e5e28b0e77a6c1ecb1" target="blank"> Bump idna requirements idna>=2.5,<2.9</a></li> 
+<li> 2019-08-16: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/4b879247bc68fd500504fcdae25dd9295eaec32c" target="blank"> Bump to version 1.0.5</a></li> 
+<li> 2019-08-16: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/694ab26e5d20c309e392f6a0ce406f18277d8aab" target="blank"> Bump idna requirements idna>=2.5,<2.9</a></li> 
+<li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3b0b6b4af0ce722c38d2945fe755ddf248182471" target="blank"> Updated refs to Git Repo</a></li> 
+<li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/d6148b81bc45c72c9734e2cc73143979a133a0f2" target="blank"> Updated CHANGELOG</a></li> 
+
 ### 1.0.4 [2019-08-14]
 
 <li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7d424e0fda71de374ff6a1e4f4818acc0e1d0416" target="blank"> Bump to version = 1.0.4</a></li> 
