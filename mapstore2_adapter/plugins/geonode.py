@@ -410,7 +410,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                    get_valid_number(overlay['bbox']['bounds']['maxx']),
                    get_valid_number(overlay['bbox']['bounds']['maxy']), ]
         ov_crs = overlay['bbox']['crs']
-        (center_m, zoom_m) = self.project_to_mercator(ov_bbox, ov_crs, center=center)
+        (center_m, zoom_m) = self.project_to_mercator(ov_bbox, ov_crs, center=None)
         if center_m is not None and zoom_m is not None:
             return (center_m, zoom_m)
         else:
@@ -426,10 +426,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 (ov_bbox[2], ov_bbox[3]),
                 (ov_bbox[2], ov_bbox[1]),
                 (ov_bbox[0], ov_bbox[1])), srid=srid)
-            gcoord = SpatialReference(4326)
-            ycoord = SpatialReference(srid)
-            trans = CoordTransform(ycoord, gcoord)
-            poly.transform(trans)
+            if srid != 3857:
+                gcoord = SpatialReference(3857)
+                ycoord = SpatialReference(srid)
+                trans = CoordTransform(ycoord, gcoord)
+                poly.transform(trans)
             try:
                 if not center:
                     center = {
