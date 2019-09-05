@@ -1,3 +1,10 @@
+### 1.0.6 [2019-09-05]
+
+<li> 2019-09-05: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/27c67b7cce30fe4feb4b645b386f220c15858985" target="blank"> [Fixes #5] geostore plugin "project_to_mercator" returns wrong SRID</a></li>
+<li> 2019-08-27: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2ead0bbf8c691a9922a9fb2ee77712f8ee640c30" target="blank"> safe backward compatibility</a></li>
+<li> 2019-08-23: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/781ae56712209591f1c5b15be414dc1d4ec41bcc" target="blank"> [Fixes #3] registering map creation/update events for monitoring</a></li>
+<li> 2019-08-22: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7b59bb521b69364b6eca83dd622a30943d691427" target="blank"> Updated CHANGELOG</a></li> 
+
 ### 1.0.5 [2019-08-22]
 
 <li> 2019-08-21: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/6b852ed98a2ac03d395e30e5e28b0e77a6c1ecb1" target="blank"> Bump idna requirements idna>=2.5,<2.9</a></li> 
