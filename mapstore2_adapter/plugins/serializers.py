@@ -26,6 +26,15 @@ import logging
 import traceback
 from django.http import Http404
 
+is_analytics_enabled = False
+try:
+    from geonode.monitoring.models import EventType
+    from geonode.monitoring import register_event
+    is_analytics_enabled = True
+except ImportError:
+    pass
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -219,6 +228,10 @@ class GeoNodeSerializer(object):
                     _map_obj['bbox'] = [_map_bbox[0], _map_bbox[1],
                                         _map_bbox[2], _map_bbox[3]]
 
+                    event_type = None
+                    if is_analytics_enabled:
+                        event_type = EventType.EVENT_CHANGE
+
                     if not map_obj:
                         # Create a new GeoNode Map
                         from geonode.maps.models import Map
@@ -236,11 +249,17 @@ class GeoNodeSerializer(object):
                             srid=_map_obj['projection'])
                         map_obj.save()
 
+                        if is_analytics_enabled:
+                            event_type = EventType.EVENT_CREATE
+
                     # Update GeoNode Map
                     _map_conf['map'] = _map_obj
                     map_obj.update_from_viewer(
                         _map_conf,
                         context={'config': _map_conf})
+
+                    if is_analytics_enabled:
+                        register_event(caller.request, event_type, map_obj)
 
                     # Dumps thumbnail from MapStore2 Interface
                     if _map_thumbnail:
