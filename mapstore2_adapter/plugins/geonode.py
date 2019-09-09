@@ -410,13 +410,13 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                    get_valid_number(overlay['bbox']['bounds']['maxx']),
                    get_valid_number(overlay['bbox']['bounds']['maxy']), ]
         ov_crs = overlay['bbox']['crs']
-        (center_m, zoom_m) = self.project_to_mercator(ov_bbox, ov_crs, center=None)
+        (center_m, zoom_m) = self.project_to_WGS84(ov_bbox, ov_crs, center=None)
         if center_m is not None and zoom_m is not None:
             return (center_m, zoom_m)
         else:
             return (center, zoom)
 
-    def project_to_mercator(self, ov_bbox, ov_crs, center=None):
+    def project_to_WGS84(self, ov_bbox, ov_crs, center=None):
         try:
             srid = int(ov_crs.split(':')[1])
             srid = 3857 if srid == 900913 else srid
@@ -426,8 +426,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 (ov_bbox[2], ov_bbox[3]),
                 (ov_bbox[2], ov_bbox[1]),
                 (ov_bbox[0], ov_bbox[1])), srid=srid)
-            if srid != 3857:
-                gcoord = SpatialReference(3857)
+            if srid != 4326:
+                gcoord = SpatialReference(4326)
                 ycoord = SpatialReference(srid)
                 trans = CoordTransform(ycoord, gcoord)
                 poly.transform(trans)
@@ -436,7 +436,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     center = {
                         "x": get_valid_number(poly.centroid.coords[0]),
                         "y": get_valid_number(poly.centroid.coords[1]),
-                        "crs": "EPSG:3857"
+                        "crs": "EPSG:4326"
                     }
                 zoom = GoogleZoom().get_zoom(poly) + 1
             except BaseException:
