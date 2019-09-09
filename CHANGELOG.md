@@ -1,3 +1,7 @@
+### 1.0.7 [2019-09-09]
+
+<li> 2019-09-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/cf3d57f661d0865cc06c6529d0cdc0267dc2b16e" target="blank"> [Fixes #6] geonode plugin center error: get_zoom() expects a GEOS Geometry with an SRID of 4326</a></li>
+
 ### 1.0.6 [2019-09-05]
 
 <li> 2019-09-05: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/27c67b7cce30fe4feb4b645b386f220c15858985" target="blank"> [Fixes #5] geostore plugin "project_to_mercator" returns wrong SRID</a></li>
