@@ -298,14 +298,29 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                 overlay['keywords'] = capa['keywords']
                             if 'dimensions' in capa and capa['dimensions']:
                                 overlay['dimensions'] = self.get_layer_dimensions(dimensions=capa['dimensions'])
-                            if 'llbbox' in capa:
-                                overlay['llbbox'] = capa['llbbox']
                             if 'storeType' in capa and capa['storeType'] == 'dataStore':
                                 overlay['search'] = {
                                     "url": get_wfs_endpoint(request),
                                     "type": "wfs"
                                 }
-                            if 'bbox' in capa:
+                            if 'llbbox' in capa:
+                                bbox = capa['llbbox']
+                                # Must be in the form xmin, ymin, xmax, ymax
+                                llbbox = [
+                                    get_valid_number(bbox[0]),
+                                    get_valid_number(bbox[2]),
+                                    get_valid_number(bbox[1]),
+                                    get_valid_number(bbox[3]),
+                                ]
+                                overlay['llbbox'] = llbbox
+                                overlay['bbox']['bounds'] = {
+                                    "minx": llbbox[0],
+                                    "miny": llbbox[1],
+                                    "maxx": llbbox[2],
+                                    "maxy": llbbox[3]
+                                }
+                                overlay['bbox']['crs'] = 'EPSG:4326'
+                            elif 'bbox' in capa:
                                 bbox = capa['bbox']
                                 if viewer_obj['map']['projection'] in bbox:
                                     proj = viewer_obj['map']['projection']
