@@ -1,15 +1,21 @@
-### 1.0.7 [2019-09-09]
+# Change Log
+
+## 1.0.8 [2019-09-19]
+
+<li> 2019-09-19: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3ffe3dd98f689f43d5a44bf8a7223de73608b131" target="blank"> [Fixes #7] Warning message on map loading</a></li>
+
+## 1.0.7 [2019-09-09]
 
 <li> 2019-09-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/cf3d57f661d0865cc06c6529d0cdc0267dc2b16e" target="blank"> [Fixes #6] geonode plugin center error: get_zoom() expects a GEOS Geometry with an SRID of 4326</a></li>
 
-### 1.0.6 [2019-09-05]
+## 1.0.6 [2019-09-05]
 
 <li> 2019-09-05: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/27c67b7cce30fe4feb4b645b386f220c15858985" target="blank"> [Fixes #5] geostore plugin "project_to_mercator" returns wrong SRID</a></li>
 <li> 2019-08-27: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2ead0bbf8c691a9922a9fb2ee77712f8ee640c30" target="blank"> safe backward compatibility</a></li>
 <li> 2019-08-23: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/781ae56712209591f1c5b15be414dc1d4ec41bcc" target="blank"> [Fixes #3] registering map creation/update events for monitoring</a></li>
 <li> 2019-08-22: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7b59bb521b69364b6eca83dd622a30943d691427" target="blank"> Updated CHANGELOG</a></li> 
 
-### 1.0.5 [2019-08-22]
+## 1.0.5 [2019-08-22]
 
 <li> 2019-08-21: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/6b852ed98a2ac03d395e30e5e28b0e77a6c1ecb1" target="blank"> Bump idna requirements idna>=2.5,<2.9</a></li> 
 <li> 2019-08-16: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/4b879247bc68fd500504fcdae25dd9295eaec32c" target="blank"> Bump to version 1.0.5</a></li> 
@@ -17,7 +23,7 @@
 <li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3b0b6b4af0ce722c38d2945fe755ddf248182471" target="blank"> Updated refs to Git Repo</a></li> 
 <li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/d6148b81bc45c72c9734e2cc73143979a133a0f2" target="blank"> Updated CHANGELOG</a></li> 
 
-### 1.0.4 [2019-08-14]
+## 1.0.4 [2019-08-14]
 
 <li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7d424e0fda71de374ff6a1e4f4818acc0e1d0416" target="blank"> Bump to version = 1.0.4</a></li> 
 <li> 2019-08-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/5cf2df180306835e96820479da5f86bd3c90bc61" target="blank"> [Closes #2] Bump urllib3 to 1.25.3</a></li> 
@@ -29,16 +35,16 @@
 <li> 2019-07-24: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/fccdd713afb0892372c6c120799949d25e40e590" target="blank"> - Bump to 1.0.4a0</a></li> 
 <li> 2019-07-24: Alessio Fabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/1003d897f1fc7d85eacf613769adc2a2d71c277f" target="blank"> Moved to https://github.com/GeoNode/django-mapstore-adapter</a></li> 
 
-### 1.0.3 [2019-06-18]
+## 1.0.3 [2019-06-18]
 
 <li> 2019-06-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2395d360ffaba6654104791bafa8ef9caf176f6f" target="blank"> - Bump to version 1.0.3</a></li> 
 <li> 2019-06-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/a7bea6204fc324ee444ace6062528fa23d21199f" target="blank"> [Fixes #7] Local settings.py pollutes global settings.py?</a></li> 
 
-### 1.0.1 [2019-06-14]
+## 1.0.1 [2019-06-14]
 
 <li> 2019-06-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/ccb6d87de8076bab52331c7b011fda070f655522" target="blank"> - Bump to version 1.0.1</a></li> 
 
-### 1.0.0 [2019-04-29]
+## 1.0.0 [2019-04-29]
 
 <li> 2019-04-29: Alessio Fabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/838bc7cc7e4f5e18984e31c66ea44bdcbf26f942" target="blank">  - Bump to version 1.0.0</a></li> 
 <li> 2019-03-27: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/2a558d7654854b038415162341c29e030de7e493" target="blank"> Fix logging mode</a></li> 
@@ -46,12 +52,12 @@
 <li> 2019-03-21: gioscarda <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/f0a310d75372b95455561fac278f190988e00d92" target="blank"> Fix geonode layers context on map save</a></li> 
 <li> 2018-12-03: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/639a902864ea098026545ec3fd9037b167c00d0b" target="blank">  - Fix wrong check with center coords computation</a></li> 
 
-### 0.1.12 [2018-11-30]
+## 0.1.12 [2018-11-30]
 
 <li> 2018-11-30: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/269d2b0fd31c038f14c2b6c99b672c74c3bc22e5" target="blank">  - Bump to version 0.1.12</a></li> 
 <li> 2018-11-30: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/831eb9fc07aee8458c67e03f4487316553e85651" target="blank">  - allow the adapter to fetch urlpatterns from custom project too</a></li> 
 
-### 0.1.11 [2018-11-29]
+## 0.1.11 [2018-11-29]
 
 <li> 2018-11-29: Alessio Fabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/6099727db00b4bcd4ebcb3839c9482ce4d724a13" target="blank">  - bump to version 0.1.11</a></li> 
 <li> 2018-11-29: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/d168b2c0209ed738c8e5ac5a5986ed88650a46d6" target="blank"> - Remove wrong demo layers from settings/README</a></li> 
@@ -63,7 +69,7 @@
 <li> 2018-11-21: kappu <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/fc9ad65b2c7191f975797597344cc43010bb74e2" target="blank"> capability dimensions to layer dimesions</a></li> 
 <li> 2018-11-13: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/8a6a8f50147db4dff1bcf754f217752d6d4f1cef" target="blank">  - Preserve the Style set from the map config</a></li> 
 
-### 0.0.0 [2018-06-18]
+## 0.0.0 [2018-06-18]
 
 * Discussion with Giovanni Allegri at GeoSolutions S.A.S.
 * Ignition
