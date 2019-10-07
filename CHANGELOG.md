@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.9 [2019-10-07]
+
+<li> 2019-10-07: afabiani <a href="522d96150cd072194537116b11f2e90fcbf4e319" target="blank"> [Fixes #8] Cql spatial filter error</a></li>
+
 ## 1.0.8 [2019-09-19]
 
 <li> 2019-09-19: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3ffe3dd98f689f43d5a44bf8a7223de73608b131" target="blank"> [Fixes #7] Warning message on map loading</a></li>
