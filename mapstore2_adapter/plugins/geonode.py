@@ -266,7 +266,17 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         overlay['name'] = layer['name'] if 'name' in layer else ''
                         overlay['group'] = layer['group'] if 'group' in layer else ''
                         overlay['format'] = layer['format'] if 'format' in layer else "image/png"
-                        overlay['nativeCrs'] = layer['nativeCrs'] if 'nativeCrs' in layer else viewer_obj['map']['projection']
+                        if 'nativeCrs' in layer:
+                            overlay['nativeCrs'] = layer['nativeCrs']
+                        else:
+                            try:
+                                from geonode.layers.models import Layer
+                                _gn_layer = Layer.objects.get(alternate=layer['name'])
+                                if _gn_layer.srid:
+                                    overlay['nativeCrs'] = _gn_layer.srid
+                            except BaseException:
+                                tb = traceback.format_exc()
+                                logger.debug(tb)
                         overlay['bbox'] = {}
 
                         if 'dimensions' in layer:
