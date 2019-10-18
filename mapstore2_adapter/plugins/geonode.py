@@ -105,6 +105,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     # 	}
                     # }, ...
                 ]
+            
+            if settings.BING_API_KEY:
+                ms2_map['bingApiKey'] = settings.BING_API_KEY
 
             # Security Info
             info = {}
@@ -214,13 +217,13 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
     def getBackgrounds(self, viewer, defaults):
         import copy
-        backgrounds = copy.copy(defaults)
-        for bg in backgrounds:
-            bg['visibility'] = False
+        backgrounds = copy.deepcopy(defaults)
         try:
             viewer_obj = json.loads(viewer)
             layers = viewer_obj['map']['layers']
             # sources = viewer_obj['sources']
+            for bg in backgrounds:
+                bg['visibility'] = False
             for layer in layers:
                 if 'group' in layer and layer['group'] == "background":
                     # source = sources[layer['source']]
@@ -229,6 +232,13 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     if background:
                         background['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
                         background['visibility'] = layer['visibility'] if 'visibility' in layer else False
+            any_visible = False
+            for bg in backgrounds:
+                if bg['visibility']:
+                    any_visible = True
+                    break
+            if not any_visible:
+                backgrounds = copy.deepcopy(defaults)
         except BaseException:
             backgrounds = copy.copy(defaults)
             tb = traceback.format_exc()
