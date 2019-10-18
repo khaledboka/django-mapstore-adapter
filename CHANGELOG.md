@@ -1,8 +1,12 @@
 # Change Log
 
+## 1.0.10 [2019-10-18]
+
+<li> 2019-10-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/676bd047ef2622a441f3e8d4e8df9bded2a33ff3" target="blank"> [Fixes #9] Add Bing background layer config to MapStore2 adapter if apiKey is provided</a></li>
+
 ## 1.0.9 [2019-10-07]
 
-<li> 2019-10-07: afabiani <a href="522d96150cd072194537116b11f2e90fcbf4e319" target="blank"> [Fixes #8] Cql spatial filter error</a></li>
+<li> 2019-10-07: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/522d96150cd072194537116b11f2e90fcbf4e319" target="blank"> [Fixes #8] Cql spatial filter error</a></li>
 
 ## 1.0.8 [2019-09-19]
 
