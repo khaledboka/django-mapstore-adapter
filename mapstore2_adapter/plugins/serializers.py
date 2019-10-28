@@ -25,6 +25,8 @@ import base64
 import logging
 import traceback
 from django.http import Http404
+from urlparse import urlparse, parse_qs
+from geonode.layers.models import Layer
 
 is_analytics_enabled = False
 try:
@@ -162,15 +164,31 @@ class GeoNodeSerializer(object):
                     _map_bbox = []
                     for _lyr in _map_obj['layers']:
                         _lyr_context = {}
+                        _lyr_store = _lyr['store'] if 'store' in _lyr else None
+                        if not _lyr_store:
+                            try:
+                                _url = urlparse(_lyr['catalogURL'])
+                                _lyr_store = Layer.objects.get(
+                                    uuid=parse_qs(_url.query)['id'][0]).store
+                            except BaseException:
+                                try:
+                                    _lyr_store = Layer.objects.get(
+                                        alternate=_lyr['name'],
+                                        remote_service__base_url=_lyr['url']).store
+                                except BaseException:
+                                    _lyr_store = None
+
+                        _lyr_name = "%s:%s" % (_lyr_store, _lyr['name']) if _lyr_store else _lyr['name']
                         try:
                             # Retrieve the Layer Params back from GeoNode
                             _gn_layer = layer_detail(
                                 caller.request,
-                                _lyr['name'])
+                                _lyr_name)
                             if _gn_layer and _gn_layer.context_data:
                                 _context_data = json.loads(_gn_layer.context_data['viewer'])
                                 for _gn_layer_ctx in _context_data['map']['layers']:
                                     if 'name' in _gn_layer_ctx and _gn_layer_ctx['name'] == _lyr['name']:
+                                        _lyr['store'] = _lyr_store
                                         if 'style' in _lyr:
                                             _lyr_context['style'] = _lyr['style']
                                         _lyr_context = _gn_layer_ctx

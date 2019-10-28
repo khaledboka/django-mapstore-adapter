@@ -274,19 +274,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         overlay['opacity'] = layer['opacity'] if 'opacity' in layer else 1.0
                         overlay['title'] = layer['title'] if 'title' in layer else ''
                         overlay['name'] = layer['name'] if 'name' in layer else ''
+                        overlay['store'] = layer['store'] if 'store' in layer else ''
                         overlay['group'] = layer['group'] if 'group' in layer else ''
                         overlay['format'] = layer['format'] if 'format' in layer else "image/png"
-                        if 'nativeCrs' in layer:
-                            overlay['nativeCrs'] = layer['nativeCrs']
-                        else:
-                            try:
-                                from geonode.layers.models import Layer
-                                _gn_layer = Layer.objects.get(alternate=layer['name'])
-                                if _gn_layer.srid:
-                                    overlay['nativeCrs'] = _gn_layer.srid
-                            except BaseException:
-                                tb = traceback.format_exc()
-                                logger.debug(tb)
                         overlay['bbox'] = {}
 
                         if 'dimensions' in layer:
@@ -306,6 +296,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
                         if 'capability' in layer:
                             capa = layer['capability']
+                            if 'store' in capa:
+                                overlay['store'] = capa['store']
                             if 'styles' in capa:
                                 overlay['styles'] = capa['styles']
                             if 'style' in capa:
@@ -352,6 +344,20 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                         "maxy": get_valid_number(bbox['bbox'][3])
                                     }
                                     overlay['bbox']['crs'] = bbox['srs']
+
+                        if 'nativeCrs' in layer:
+                            overlay['nativeCrs'] = layer['nativeCrs']
+                        else:
+                            try:
+                                from geonode.layers.models import Layer
+                                _gn_layer = Layer.objects.get(
+                                    store=overlay['store'],
+                                    alternate=overlay['name'])
+                                if _gn_layer.srid:
+                                    overlay['nativeCrs'] = _gn_layer.srid
+                            except BaseException:
+                                tb = traceback.format_exc()
+                                logger.debug(tb)
 
                         if 'bbox' in layer and not overlay['bbox']:
                             if 'bounds' in layer['bbox']:
