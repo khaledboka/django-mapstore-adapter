@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.11 [2019-10-28]
+
+<li> 2019-10-28: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/5c54f9e97c3ee003152aa491c66cf40fc2afed39" target="blank"> [Fixes #10] Include Overlay "store" too whenever is present on context</a></li>
+
 ## 1.0.10 [2019-10-18]
 
 <li> 2019-10-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/676bd047ef2622a441f3e8d4e8df9bded2a33ff3" target="blank"> [Fixes #9] Add Bing background layer config to MapStore2 adapter if apiKey is provided</a></li>
