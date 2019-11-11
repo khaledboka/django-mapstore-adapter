@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.12 [2019-11-11]
+
+<li> 2019-11-11: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/fcf74de7d63c68e55235119f9b05d73aac5e7191" target="blank"> - Fix default zoom level to something > 0 in order to avoid weird world map rendering</a></li>
+
 ## 1.0.11 [2019-10-28]
 
 <li> 2019-10-28: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/5c54f9e97c3ee003152aa491c66cf40fc2afed39" target="blank"> [Fixes #10] Include Overlay "store" too whenever is present on context</a></li>
