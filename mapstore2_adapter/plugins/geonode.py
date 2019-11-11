@@ -73,7 +73,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             ms2_map = {}
             ms2_map['projection'] = viewer_obj['map']['projection']
             ms2_map['units'] = viewer_obj['map']['units']
-            ms2_map['zoom'] = viewer_obj['map']['zoom']
+            ms2_map['zoom'] = viewer_obj['map']['zoom'] if viewer_obj['map']['zoom'] > 0 else 2
             ms2_map['maxExtent'] = viewer_obj['map']['maxExtent']
             ms2_map['maxResolution'] = viewer_obj['map']['maxResolution']
 
@@ -453,6 +453,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         ov_crs = overlay['bbox']['crs']
         (center_m, zoom_m) = self.project_to_WGS84(ov_bbox, ov_crs, center=None)
         if center_m is not None and zoom_m is not None:
+            zoom_m = zoom_m if zoom_m > 0 else 1
             return (center_m, zoom_m)
         else:
             return (center, zoom)
