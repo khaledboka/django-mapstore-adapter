@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.13 [2019-11-20]
+
+<li> 2019-11-20: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/a1e39ab159c563da3caa395e9b3b3d6c4ed52d8e" target="blank"> [Fixes #11] Maps migrated from GeoExplorer don't display the correct initial extent in MapStore</a></li>
+
 ## 1.0.12 [2019-11-11]
 
 <li> 2019-11-11: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/fcf74de7d63c68e55235119f9b05d73aac5e7191" target="blank"> - Fix default zoom level to something > 0 in order to avoid weird world map rendering</a></li>
