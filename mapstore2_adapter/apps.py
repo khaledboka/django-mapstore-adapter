@@ -29,9 +29,6 @@ class AppConfig(BaseAppConfig):
     verbose_name = _("Django MapStore2 Adapter")
 
     def ready(self):
-        """Connect relevant signals to their corresponding handlers"""
-        """
-            NO SIGNALS DEFINED YET
-        """
+        """Finalize setup"""
         run_setup_hooks()
         super(AppConfig, self).ready()

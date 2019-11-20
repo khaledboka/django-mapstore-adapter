@@ -148,12 +148,16 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             else:
                 # We are getting the configuration of a Map
                 # On GeoNode model the Map Center is always saved in 4326
+                _x = get_valid_number(viewer_obj['map']['center'][0])
+                _y = get_valid_number(viewer_obj['map']['center'][1])
+                _crs = 'EPSG:4326'
+                if _x > 360.0 or _x < -360.0:
+                    _crs = viewer_obj['map']['projection']
                 ms2_map['center'] = {
-                    'x': get_valid_number(viewer_obj['map']['center'][0]),
-                    'y': get_valid_number(viewer_obj['map']['center'][1]),
-                    'crs': 'EPSG:4326'
+                    'x': _x,
+                    'y': _y,
+                    'crs': _crs
                 }
-
                 try:
                     # - extract from GeoNode guardian
                     from geonode.maps.views import (_resolve_map,
@@ -197,8 +201,10 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
 
         # Additional Configurations
         if map_id:
+            from mapstore2_adapter import fixup_map
             from mapstore2_adapter.api.models import MapStoreResource
             try:
+                fixup_map(map_id)
                 ms2_resource = MapStoreResource.objects.get(id=map_id)
                 ms2_map_data = ms2_resource.data.blob
                 if 'map' in ms2_map_data:
