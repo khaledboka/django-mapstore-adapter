@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('label', models.CharField(blank=True, max_length=255, null=True)),
-                ('type', models.CharField(choices=[(b'string', b'String'), (b'number', b'Number'), (b'integer', b'Integer'), (b'boolean', b'Boolean'), (b'binary', b'Binary')], max_length=80)),
-                ('value', models.TextField(blank=True, db_column=b'value')),
+                ('type', models.CharField(choices=[('string', b'String'), ('number', b'Number'), ('integer', b'Integer'), ('boolean', b'Boolean'), ('binary', b'Binary')], max_length=80)),
+                ('value', models.TextField(blank=True, db_column='value')),
             ],
         ),
         migrations.CreateModel(
@@ -58,10 +58,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='mapstoreresource',
-            index=models.Index(fields=[b'id'], name='mapstore2_a_id_cd23a9_idx'),
+            index=models.Index(fields=['id'], name='mapstore2_a_id_cd23a9_idx'),
         ),
         migrations.AddIndex(
             model_name='mapstoreresource',
-            index=models.Index(fields=[b'name'], name='mapstore2_a_name_35c0a1_idx'),
+            index=models.Index(fields=['name'], name='mapstore2_a_name_35c0a1_idx'),
         ),
     ]
