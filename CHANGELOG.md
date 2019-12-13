@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.14 [2019-12-13]
+
+<li> 2019-12-13: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/c626db2c47128040d28a40395623b7457d3c98b5" target="blank"> Bump markupsafe from 1.0 to 1.1.1</a></li> 
+<li> 2019-12-13: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/d877a45661faea53a0b484ad06f16113d57f5ba1" target="blank"> Bump urllib3 from 1.25.3 to 1.25.7</a></li> 
+<li> 2019-12-06: Dana Lambert <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/5fe469da015ba619aa982a8b89ba3136fc83a96a" target="blank"> [Issue Geonode/geonode#4276] Making migrations py3 compatable</a></li> 
+
 ## 1.0.13 [2019-11-20]
 
 <li> 2019-11-20: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/a1e39ab159c563da3caa395e9b3b3d6c4ed52d8e" target="blank"> [Fixes #11] Maps migrated from GeoExplorer don't display the correct initial extent in MapStore</a></li>
