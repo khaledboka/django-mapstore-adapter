@@ -51,7 +51,7 @@ class JSONArraySerializerField(serializers.Field):
                     "name": _a.name,
                     "type": _a.type,
                     "label": _a.label,
-                    "value": base64.decodestring(_a.value).decode('utf8')
+                    "value": base64.b64decode(_a.value).decode('utf8')
                 })
         else:
             attributes = []
