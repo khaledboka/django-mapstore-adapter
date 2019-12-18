@@ -204,6 +204,8 @@ class GeoNodeSerializer(object):
 
                         # Store the Capabilities Document into the Layer Params of GeoNode
                         if _lyr_context:
+                            if 'getFeatureInfo' in _lyr_context:
+                                _lyr['getFeatureInfo'] = _lyr_context['getFeatureInfo']
                             if 'capability' in _lyr_context:
                                 _lyr['capability'] = _lyr_context['capability']
                                 if 'bbox' in _lyr_context['capability']:
