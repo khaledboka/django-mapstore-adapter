@@ -16,16 +16,15 @@ from ..api.models import (MapStoreData,
 
 from rest_framework.exceptions import APIException
 
-try:
-    import json
-except ImportError:
-    from django.utils import simplejson as json
-
+import json
 import base64
 import logging
 import traceback
 from django.http import Http404
-from urlparse import urlparse, parse_qs
+try:
+    from urllib.parse import urlparse, parse_qs
+except ImportError:
+    from urlparse import urlparse, parse_qs
 from geonode.layers.models import Layer
 
 is_analytics_enabled = False
@@ -63,7 +62,7 @@ class GeoNodeSerializer(object):
             attribute.name = _a['name']
             attribute.type = _a['type']
             attribute.label = _a['label']
-            attribute.value = base64.encodestring(_a['value'].encode('utf8'))
+            attribute.value = base64.b64encode(_a['value'].encode('utf8'))
             attribute.save()
             _attributes.append(attribute)
         serializer.validated_data['attributes'] = _attributes
