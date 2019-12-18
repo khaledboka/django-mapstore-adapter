@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.15 [2019-12-18]
+
+<li> 2019-12-18: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/5c8c357d22f6c2ba77e9a219417ed152489eb399" target="blank"> [Fixes #17] Layer feature info templates are not used inside maps</a></li> 
+<li> 2019-12-16: Matthew Northcott <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/9caaf498d166eebc62ae5038c2acb80b6ac1d99a" target="blank"> Fixes for Python 3 compatibility and rest framework update</a></li> 
+
 ## 1.0.14 [2019-12-13]
 
 <li> 2019-12-13: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/c626db2c47128040d28a40395623b7457d3c98b5" target="blank"> Bump markupsafe from 1.0 to 1.1.1</a></li> 
