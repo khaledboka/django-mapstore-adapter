@@ -1,15 +1,19 @@
 # Change Log
 
+## 1.0.16 [2020-01-09]
+
+<li> 2020-01-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/db2fb3feaf64378403bef2a46e3a6d0a43adc62d" target="blank"> [Fixes #18] Widgets on maps are not retained on reload</a></li>
+
 ## 1.0.15 [2019-12-18]
 
 <li> 2019-12-18: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/5c8c357d22f6c2ba77e9a219417ed152489eb399" target="blank"> [Fixes #17] Layer feature info templates are not used inside maps</a></li> 
-<li> 2019-12-16: Matthew Northcott <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/9caaf498d166eebc62ae5038c2acb80b6ac1d99a" target="blank"> Fixes for Python 3 compatibility and rest framework update</a></li> 
+<li> 2019-12-16: Matthew Northcott <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/9caaf498d166eebc62ae5038c2acb80b6ac1d99a" target="blank"> Fixes for Python 3 compatibility and rest framework update</a></li>
 
 ## 1.0.14 [2019-12-13]
 
 <li> 2019-12-13: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/c626db2c47128040d28a40395623b7457d3c98b5" target="blank"> Bump markupsafe from 1.0 to 1.1.1</a></li> 
 <li> 2019-12-13: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/d877a45661faea53a0b484ad06f16113d57f5ba1" target="blank"> Bump urllib3 from 1.25.3 to 1.25.7</a></li> 
-<li> 2019-12-06: Dana Lambert <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/5fe469da015ba619aa982a8b89ba3136fc83a96a" target="blank"> [Issue Geonode/geonode#4276] Making migrations py3 compatable</a></li> 
+<li> 2019-12-06: Dana Lambert <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/5fe469da015ba619aa982a8b89ba3136fc83a96a" target="blank"> [Issue Geonode/geonode#4276] Making migrations py3 compatable</a></li>
 
 ## 1.0.13 [2019-11-20]
 
