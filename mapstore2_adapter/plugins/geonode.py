@@ -11,6 +11,8 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from six import string_types
+
 try:
     import json
 except ImportError:
@@ -207,6 +209,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 fixup_map(map_id)
                 ms2_resource = MapStoreResource.objects.get(id=map_id)
                 ms2_map_data = ms2_resource.data.blob
+                if isinstance(ms2_map_data, string_types):
+                    ms2_map_data = json.loads(ms2_map_data)
                 if 'map' in ms2_map_data:
                     del ms2_map_data['map']
                 data.update(ms2_map_data)

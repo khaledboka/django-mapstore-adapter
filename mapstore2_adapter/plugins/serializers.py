@@ -83,9 +83,8 @@ class GeoNodeSerializer(object):
                     allowed_map_ids.append(mapid)
             except BaseException:
                 tb = traceback.format_exc()
-                logger.error(tb)
+                logger.debug(tb)
 
-        # queryset = queryset.filter(user=self.request.user)
         queryset = queryset.filter(id__in=allowed_map_ids)
         return queryset
 
@@ -103,7 +102,7 @@ class GeoNodeSerializer(object):
                 return map_obj
         except BaseException:
             tb = traceback.format_exc()
-            logger.error(tb)
+            logger.debug(tb)
             raise APIException(_PERMISSION_MSG_SAVE)
 
     def set_geonode_map(self, caller, serializer, map_obj=None, data=None, attributes=None):
