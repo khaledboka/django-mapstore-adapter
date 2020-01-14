@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.17 [2020-01-14]
+
+<li> 2020-01-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/37523325b86d95453009d1aab7cd239f93dfeeaa" target="blank"> [Fixes #19] GeoNode serializer does not preserve DEFAULT MAP BAGROUNDS visibility and order</a></li>
+
 ## 1.0.16 [2020-01-09]
 
 <li> 2020-01-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/db2fb3feaf64378403bef2a46e3a6d0a43adc62d" target="blank"> [Fixes #18] Widgets on maps are not retained on reload</a></li>
