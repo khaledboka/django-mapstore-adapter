@@ -49,7 +49,7 @@ class JSONArraySerializerField(serializers.Field):
             attributes = []
             for _a in list(value.all()):
                 data = ''
-                if re.match(r'b\'(.*)\'', _a.value).groups():
+                if re.match(r'b\'(.*)\'', _a.value):
                     data = re.match(r'b\'(.*)\'', _a.value).groups()[0]
                 attributes.append({
                     "name": _a.name,
