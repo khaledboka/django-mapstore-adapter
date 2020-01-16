@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.0.0 [2020-01-16]
+<li> 2020-01-14: Python 3 / Django 2 Compatibility</li>
+
 ## 1.0.17 [2020-01-14]
 
 <li> 2020-01-14: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/37523325b86d95453009d1aab7cd239f93dfeeaa" target="blank"> [Fixes #19] GeoNode serializer does not preserve DEFAULT MAP BAGROUNDS visibility and order</a></li>

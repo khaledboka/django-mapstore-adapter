@@ -14,6 +14,7 @@ from rest_framework import serializers
 
 from .models import MapStoreResource
 
+import re
 import base64
 import logging
 
@@ -47,11 +48,14 @@ class JSONArraySerializerField(serializers.Field):
         if value:
             attributes = []
             for _a in list(value.all()):
+                data = ''
+                if re.match(r'b\'(.*)\'', _a.value).groups():
+                    data = re.match(r'b\'(.*)\'', _a.value).groups()[0]
                 attributes.append({
                     "name": _a.name,
                     "type": _a.type,
                     "label": _a.label,
-                    "value": base64.b64decode(_a.value).decode('utf8')
+                    "value": base64.b64decode(data).decode('utf8')
                 })
         else:
             attributes = []

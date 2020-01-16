@@ -26,7 +26,7 @@ def random_id():
 
 
 class MapStoreResource(models.Model):
-    user = models.ForeignKey(get_user_model())
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     id = models.BigIntegerField(
         primary_key=True,
         unique=True,
@@ -49,7 +49,8 @@ class MapStoreResource(models.Model):
         "MapStoreData",
         related_name="data",
         null=True,
-        blank=True)
+        blank=True,
+        on_delete="CASCASE")
     attributes = models.ManyToManyField(
         "MapStoreAttribute",
         related_name="attributes",

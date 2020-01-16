@@ -28,7 +28,7 @@ from mapstore2_adapter import DjangoMapstore2AdapterBaseException
 from django.conf import settings
 from django.utils.six.moves import range
 try:
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
 except BaseException:
     # Django 2.0
     from django.urls import reverse
@@ -207,7 +207,7 @@ class GoogleZoom(object):
 
 def get_wfs_endpoint(request):
     try:
-        if request and request.user and request.user.is_authenticated():
+        if request and request.user and request.user.is_authenticated:
             wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
         else:
             wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))

@@ -122,7 +122,7 @@ class GeoNodeSerializer(object):
             missing_padding = len(data) % 4
             if missing_padding != 0:
                 data += b'=' * (4 - missing_padding)
-            return (data.decode('base64'), _thumbnail_format)
+            return (base64.b64decode(data), _thumbnail_format)
 
         _map_name = None
         _map_title = None

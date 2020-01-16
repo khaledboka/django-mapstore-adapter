@@ -70,8 +70,8 @@ TEMPLATES = [
 
 MIDDLEWARE = (
     "django.middleware.common.CommonMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
 )
@@ -350,8 +350,8 @@ MAPSTORE_CATALOGUE_SERVICES = {
 MAPSTORE_CATALOGUE_SELECTED_SERVICE = "Demo WMS Service"
 
 if GEONODE_CATALOGUE_SERVICE:
-    MAPSTORE_CATALOGUE_SERVICES[list(GEONODE_CATALOGUE_SERVICE.keys())[0]] = GEONODE_CATALOGUE_SERVICE
-    MAPSTORE_CATALOGUE_SELECTED_SERVICE = list(GEONODE_CATALOGUE_SERVICE.keys())[0]
+    MAPSTORE_CATALOGUE_SERVICES[list(list(GEONODE_CATALOGUE_SERVICE.keys()))[0]] = GEONODE_CATALOGUE_SERVICE
+    MAPSTORE_CATALOGUE_SELECTED_SERVICE = list(list(GEONODE_CATALOGUE_SERVICE.keys()))[0]
 
 DEFAULT_MS2_BACKGROUNDS = [{
     "type": "osm",
