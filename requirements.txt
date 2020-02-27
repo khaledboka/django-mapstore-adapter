@@ -1,7 +1,7 @@
 django>=1.11
 idna>=2.5,<2.9
 requests>=2.13.0
-Markdown==2.6.11
+Markdown==3.2.1
 MarkupSafe==1.1.1
 jsonfield
 djangorestframework>=3.8.2
