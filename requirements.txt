@@ -1,5 +1,5 @@
 django>=1.11
-idna>=2.5,<2.9
+idna>=2.5,<2.10
 requests>=2.13.0
 Markdown==3.2.1
 MarkupSafe==1.1.1
