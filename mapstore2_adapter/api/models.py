@@ -50,7 +50,7 @@ class MapStoreResource(models.Model):
         related_name="data",
         null=True,
         blank=True,
-        on_delete="CASCASE")
+        on_delete=models.CASCADE)
     attributes = models.ManyToManyField(
         "MapStoreAttribute",
         related_name="attributes",
