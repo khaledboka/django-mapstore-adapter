@@ -63,7 +63,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
         if 'id' in viewer_obj and viewer_obj['id']:
             try:
                 map_id = int(viewer_obj['id'])
-            except BaseException:
+            except Exception:
                 pass
 
         data = {}
@@ -144,7 +144,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                       'base.delete_resourcebase',
                                       _PERMISSION_MSG_DELETE):
                         info['canDelete'] = True
-                except BaseException:
+                except Exception:
                     tb = traceback.format_exc()
                     logger.debug(tb)
             else:
@@ -176,7 +176,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                     'base.delete_resourcebase',
                                     _PERMISSION_MSG_DELETE):
                         info['canDelete'] = True
-                except BaseException:
+                except Exception:
                     tb = traceback.format_exc()
                     logger.debug(tb)
 
@@ -185,7 +185,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     ms2_map['layers'].append(overlay)
 
             data['map'] = ms2_map
-        except BaseException:
+        except Exception:
             # traceback.print_exc()
             tb = traceback.format_exc()
             logger.debug(tb)
@@ -196,7 +196,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
             ms2_catalogue['services'] = CATALOGUE_SERVICES
             data['catalogServices'] = ms2_catalogue
-        except BaseException:
+        except Exception:
             # traceback.print_exc()
             tb = traceback.format_exc()
             logger.debug(tb)
@@ -214,7 +214,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 if 'map' in ms2_map_data:
                     del ms2_map_data['map']
                 data.update(ms2_map_data)
-            except BaseException:
+            except Exception:
                 # traceback.print_exc()
                 tb = traceback.format_exc()
                 logger.debug(tb)
@@ -255,7 +255,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         break
             else:
                 backgrounds = copy.deepcopy(defaults)
-        except BaseException:
+        except Exception:
             # traceback.print_exc()
             backgrounds = copy.copy(defaults)
             tb = traceback.format_exc()
@@ -372,7 +372,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                     alternate=overlay['name'])
                                 if _gn_layer.srid:
                                     overlay['nativeCrs'] = _gn_layer.srid
-                            except BaseException:
+                            except Exception:
                                 tb = traceback.format_exc()
                                 logger.debug(tb)
 
@@ -427,7 +427,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     overlays.append(overlay)
                     if not selected or ('selected' in layer and layer['selected']):
                         selected = overlay
-        except BaseException:
+        except Exception:
             tb = traceback.format_exc()
             logger.debug(tb)
 
@@ -498,12 +498,12 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                         "crs": "EPSG:4326"
                     }
                 zoom = GoogleZoom().get_zoom(poly) + 1
-            except BaseException:
+            except Exception:
                 center = (0, 0)
                 zoom = 0
                 tb = traceback.format_exc()
                 logger.debug(tb)
-        except BaseException:
+        except Exception:
             tb = traceback.format_exc()
             logger.debug(tb)
 

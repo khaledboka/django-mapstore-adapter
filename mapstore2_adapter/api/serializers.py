@@ -33,7 +33,7 @@ class JSONSerializerField(serializers.Field):
             return value.blob
         # try:
         #     return json.loads(value)
-        except BaseException:
+        except Exception:
             return value
 
 

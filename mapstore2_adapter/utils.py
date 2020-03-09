@@ -19,7 +19,7 @@ except ImportError:
 
 try:
     from urlparse import urljoin
-except BaseException:
+except Exception:
     # Python 3+
     from urllib.parse import urljoin
 
@@ -29,7 +29,7 @@ from django.conf import settings
 from django.utils.six.moves import range
 try:
     from django.urls import reverse
-except BaseException:
+except Exception:
     # Django 2.0
     from django.urls import reverse
 from django.contrib.gis.geos import GEOSGeometry, LinearRing, Point, Polygon
@@ -211,7 +211,7 @@ def get_wfs_endpoint(request):
             wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
         else:
             wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
-    except BaseException:
+    except Exception:
         wfs_url = urljoin(settings.SITEURL, reverse('ows_endpoint'))
     return wfs_url
 
@@ -219,7 +219,7 @@ def get_wfs_endpoint(request):
 def get_valid_number(number, default=None, complementar=False):
     try:
         x = float(number)
-    except BaseException:
+    except Exception:
         x = float('nan')
     is_nan = isnan(x)
     is_inf = isinf(x)

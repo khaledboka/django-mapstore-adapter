@@ -31,7 +31,7 @@ def fixup_map(map_id):
             _mm, _created = MapStoreResource.objects.get_or_create(id=_m.id, user_id=_u.id)
             if _created:
                 _mm.save()
-        except BaseException as e:
+        except Exception as e:
             logger.exception(e)
 
 

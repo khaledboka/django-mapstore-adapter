@@ -81,7 +81,7 @@ class GeoNodeSerializer(object):
                     _PERMISSION_MSG_VIEW)
                 if map_obj:
                     allowed_map_ids.append(mapid)
-            except BaseException:
+            except Exception:
                 tb = traceback.format_exc()
                 logger.debug(tb)
 
@@ -100,7 +100,7 @@ class GeoNodeSerializer(object):
                     'base.change_resourcebase',
                     _PERMISSION_MSG_SAVE)
                 return map_obj
-        except BaseException:
+        except Exception:
             tb = traceback.format_exc()
             logger.debug(tb)
             raise APIException(_PERMISSION_MSG_SAVE)
@@ -168,12 +168,12 @@ class GeoNodeSerializer(object):
                                 _url = urlparse(_lyr['catalogURL'])
                                 _lyr_store = Layer.objects.get(
                                     uuid=parse_qs(_url.query)['id'][0]).store
-                            except BaseException:
+                            except Exception:
                                 try:
                                     _lyr_store = Layer.objects.get(
                                         alternate=_lyr['name'],
                                         remote_service__base_url=_lyr['url']).store
-                                except BaseException:
+                                except Exception:
                                     _lyr_store = None
 
                         _lyr_name = "%s:%s" % (_lyr_store, _lyr['name']) if _lyr_store else _lyr['name']
@@ -195,7 +195,7 @@ class GeoNodeSerializer(object):
                         except Http404:
                             tb = traceback.format_exc()
                             logger.debug(tb)
-                        except BaseException:
+                        except Exception:
                             raise
                         # Store ms2 layer idq
                         if "id" in _lyr and _lyr["id"]:
@@ -286,7 +286,7 @@ class GeoNodeSerializer(object):
 
                     serializer.validated_data['id'] = map_obj.id
                     serializer.save(user=caller.request.user)
-            except BaseException:
+            except Exception:
                 tb = traceback.format_exc()
                 logger.error(tb)
                 raise APIException(tb)

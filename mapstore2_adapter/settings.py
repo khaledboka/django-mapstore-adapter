@@ -14,12 +14,12 @@ from django.conf import settings
 
 try:
     settings.TEMPLATES[0]['OPTIONS']['context_processors'] += ['mapstore2_adapter.context_processors.resource_urls',]
-except BaseException:
+except Exception:
     pass
 
 try:
     settings.LOGGING["loggers"]["mapstore2_adapter"] = {"handlers": ["console"], "level": "INFO", }
-except BaseException:
+except Exception:
     pass
 
 settings.MAPSTORE2_ADAPTER_SERIALIZER = "mapstore2_adapter.plugins.serializers.GeoNodeSerializer"
