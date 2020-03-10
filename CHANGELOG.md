@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.2 [2020-03-10]
+
+<li> 2020-03-10: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/bfba88e6862bcc828347dda732db594f285fb052" target="blank">  - Bump to version 2.0.2</a></li> 
+<li> 2020-03-10: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/3766b0f5f61e32f8f85fb40bb7c387ceaea287e3" target="blank">  - Typos and formatting improvements</a></li> 
+<li> 2020-03-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/b91e1053ef5309f52c59a8f9c09f9a847a9c1704" target="blank">  - Typos and formatting improvements</a></li> 
+
 ## 2.0.1 [2020-02-27]
 
 <li> 2020-02-17: dependabot-preview[bot] <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/30168797b110ef2765543059e011828be945fb3f" target="blank"> Update idna requirement from <2.9,>=2.5 to >=2.5,<2.10</a></li> 

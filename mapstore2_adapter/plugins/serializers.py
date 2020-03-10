@@ -62,7 +62,8 @@ class GeoNodeSerializer(object):
             attribute.name = _a['name']
             attribute.type = _a['type']
             attribute.label = _a['label']
-            attribute.value = base64.b64encode(_a['value'].encode('utf8'))
+            if 'value' in _a:
+                attribute.value = base64.b64encode(_a['value'].encode('utf8'))
             attribute.save()
             _attributes.append(attribute)
         serializer.validated_data['attributes'] = _attributes
@@ -131,13 +132,13 @@ class GeoNodeSerializer(object):
         _map_thumbnail_format = 'png'
         if attributes:
             for _a in attributes:
-                if _a['name'] == 'name':
+                if _a['name'] == 'name' and 'value' in _a:
                     _map_name = _a['value']
-                if _a['name'] == 'title':
+                if _a['name'] == 'title' and 'value' in _a:
                     _map_title = _a['value']
-                if _a['name'] == 'abstract':
+                if _a['name'] == 'abstract' and 'value' in _a:
                     _map_abstract = _a['value']
-                if 'thumb' in _a['name']:
+                if 'thumb' in _a['name'] and 'value' in _a:
                     (_map_thumbnail, _map_thumbnail_format) = decode_base64(_a['value'])
         elif map_obj:
             _map_title = map_obj.title
