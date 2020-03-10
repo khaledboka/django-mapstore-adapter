@@ -107,7 +107,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     # 	}
                     # }, ...
                 ]
-            
+
             if settings.BING_API_KEY:
                 ms2_map['bingApiKey'] = settings.BING_API_KEY
 

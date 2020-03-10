@@ -13,7 +13,7 @@ from django.apps import AppConfig as BaseAppConfig
 from django.utils.translation import ugettext_lazy as _
 
 
-def run_setup_hooks(*args, **kwargs): 
+def run_setup_hooks(*args, **kwargs):
     from geonode.urls import urlpatterns
     from django.conf.urls import url, include
 
