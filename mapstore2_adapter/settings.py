@@ -24,7 +24,6 @@ except Exception:
 
 settings.MAPSTORE2_ADAPTER_SERIALIZER = "mapstore2_adapter.plugins.serializers.GeoNodeSerializer"
 
-MAP_DEBUG = getattr(settings, "MAPSTORE_DEBUG", False)
 MAP_BASELAYERS = getattr(settings, "MAPSTORE_BASELAYERS", [])
 CATALOGUE_SERVICES = getattr(settings, "MAPSTORE_CATALOGUE_SERVICES", {})
 CATALOGUE_SELECTED_SERVICE = getattr(settings, "MAPSTORE_CATALOGUE_SELECTED_SERVICE", None)

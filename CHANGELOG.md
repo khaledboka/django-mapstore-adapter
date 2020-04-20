@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.3 [2020-04-20]
+
+<li> 2020-04-17: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/02fb3066116e42692bbf19c3fa494e4898e843cb" target="blank"> Bump urllib3 from 1.25.8 to 1.25.9</a></li> 
+<li> 2020-02-27: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/518f7081eeddc213e5fd71e2e3c4f1f50fcf6b1a" target="blank"> Update django requirement from <3.0,>=2.2.0 to >=2.2.0,<4.0</a></li> 
+<li> 2020-02-27: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/7fe25589df40e7a658a9c2d19ba3cd7540710ec5" target="blank"> Bump jsonfield from 2.0.2 to 3.1.0</a></li> 
+
 ## 2.0.2 [2020-03-10]
 
 <li> 2020-03-10: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/bfba88e6862bcc828347dda732db594f285fb052" target="blank">  - Bump to version 2.0.2</a></li> 
