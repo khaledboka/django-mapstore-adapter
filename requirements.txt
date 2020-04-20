@@ -5,4 +5,4 @@ Markdown==3.2.1
 MarkupSafe==1.1.1
 jsonfield==2.0.2
 djangorestframework>=3.8.2
-urllib3==1.25.8
+urllib3==1.25.9
