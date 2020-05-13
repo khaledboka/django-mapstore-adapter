@@ -190,17 +190,6 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             tb = traceback.format_exc()
             logger.debug(tb)
 
-        # Default Catalogue Services Definition
-        try:
-            ms2_catalogue = {}
-            ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
-            ms2_catalogue['services'] = CATALOGUE_SERVICES
-            data['catalogServices'] = ms2_catalogue
-        except Exception:
-            # traceback.print_exc()
-            tb = traceback.format_exc()
-            logger.debug(tb)
-
         # Additional Configurations
         if map_id:
             from mapstore2_adapter import fixup_map
@@ -218,6 +207,17 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 # traceback.print_exc()
                 tb = traceback.format_exc()
                 logger.debug(tb)
+
+        # Default Catalogue Services Definition
+        try:
+            ms2_catalogue = {}
+            ms2_catalogue['selectedService'] = CATALOGUE_SELECTED_SERVICE
+            ms2_catalogue['services'] = CATALOGUE_SERVICES
+            data['catalogServices'] = ms2_catalogue
+        except Exception:
+            # traceback.print_exc()
+            tb = traceback.format_exc()
+            logger.debug(tb)
 
         json_str = json.dumps(data, cls=DjangoJSONEncoder, sort_keys=True)
         for (c, d) in unsafe_chars.items():
