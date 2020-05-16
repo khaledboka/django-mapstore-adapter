@@ -11,6 +11,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from urllib import parse
 from six import string_types
 
 try:
@@ -21,14 +22,15 @@ except ImportError:
 import logging
 import traceback
 
-from ..utils import (GoogleZoom,
-                     get_wfs_endpoint,
-                     get_valid_number,
-                     to_json)
-from ..settings import (MAP_BASELAYERS,
-                        CATALOGUE_SERVICES,
-                        CATALOGUE_SELECTED_SERVICE
-                        )
+from ..utils import (
+    GoogleZoom,
+    get_wfs_endpoint,
+    get_valid_number,
+    to_json)
+from ..settings import (
+    MAP_BASELAYERS,
+    CATALOGUE_SERVICES,
+    CATALOGUE_SELECTED_SERVICE)
 
 from ..converters import BaseMapStore2ConfigConverter
 
@@ -277,6 +279,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                     if 'url' in source:
                         overlay['type'] = "wms" if 'ptype' not in source or \
                             source['ptype'] != 'gxp_arcrestsource' else 'arcgis'
+                        _p_url = parse.urlparse(source['url'])
+                        if _p_url.query:
+                            overlay['params'] = dict(parse.parse_qsl(_p_url.query))
                         overlay['url'] = source['url']
                         overlay['visibility'] = layer['visibility'] if 'visibility' in layer else True
                         overlay['singleTile'] = layer['singleTile'] if 'singleTile' in layer else False
