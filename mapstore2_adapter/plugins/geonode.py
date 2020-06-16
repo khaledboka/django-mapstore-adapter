@@ -426,19 +426,25 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                             (_label, _field, _field)
                                     elif displayTypes[_field] == 'type_image':
                                         _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
-                                            <img width="100%%" height="auto" src="${properties.%s}" title="%s" alt="%s"/></div>' % \
-                                            (_field, _label, _label)
-                                    elif displayTypes[_field] == 'type_video':
-                                        _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
-                                            <video width="100%%" height="360" controls><source src="${properties.%s}" type="video/mp4">Your browser does not support the video tag.</video></div>' % \
-                                            (_field)
+                                            <a href="${properties.%s}" target="_new"><img width="100%%" height="auto" src="${properties.%s}" title="%s" alt="%s"/></a></div>' % \
+                                            (_field, _field, _label, _label)
+                                    elif 'type_video' in displayTypes[_field]:
+                                        if 'youtube' in displayTypes[_field]:
+                                            _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
+                                                <iframe src="${properties.%s}" width="100%%" height="360" frameborder="0" allowfullscreen></iframe></div>' % \
+                                                (_field)
+                                        else:
+                                            _type = "video/%s" % (displayTypes[_field][11:])
+                                            _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
+                                                <video width="100%%" height="360" controls><source src="${properties.%s}" type="%s">Your browser does not support the video tag.</video></div>' % \
+                                                (_field, _type)
                                     elif displayTypes[_field] == 'type_audio':
                                         _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
                                             <audio controls><source src="${properties.%s}" type="audio/mpeg">Your browser does not support the audio element.</audio></div>' % \
                                             (_field)
                                     elif displayTypes[_field] == 'type_iframe':
                                         _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
-                                            <iframe src="${properties.%s}" width="100%%" height="360" frameborder="0" allowfullscreen></iframe></div>' % \
+                                            <iframe src="/proxy/?url=${properties.%s}" width="100%%" height="360" frameborder="0" allowfullscreen></iframe></div>' % \
                                             (_field)
                                     else:
                                         _template += '<div class="col-xs-6" style="font-weight: bold; word-wrap: break-word;">%s:</div> \
