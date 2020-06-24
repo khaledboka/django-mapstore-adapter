@@ -264,8 +264,8 @@ class GeoNodeSerializer(object):
                             projection=_map_obj['projection'],
                             zoom=_map_obj['zoom'],
                             bbox_x0=_map_obj['bbox'][0],
-                            bbox_x1=_map_obj['bbox'][1],
-                            bbox_y0=_map_obj['bbox'][2],
+                            bbox_y0=_map_obj['bbox'][1],
+                            bbox_x1=_map_obj['bbox'][2],
                             bbox_y1=_map_obj['bbox'][3],
                             srid=_map_obj['projection'])
                         map_obj.save()
