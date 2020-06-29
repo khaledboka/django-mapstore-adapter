@@ -554,4 +554,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
             input: MapStore2 compliant str(config)
             output: GeoNode JSON Gxp Config
         """
+        # MapStore uses x0,y0,x1,y1 ordering of bbox coords
+        if map and map.get('bbox'):
+            ms2_bbox = map.get('bbox')
+            config_bbox = [ms2_bbox[0], ms2_bbox[2], ms2_bbox[1], ms2_bbox[3]]
+            viewer['map']['bbox'] = config_bbox
         return to_json(viewer)
