@@ -412,7 +412,7 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                     layer['getFeatureInfo']['propertyNames']:
                                 fields = layer['getFeatureInfo']['fields']
                                 propertyNames = layer['getFeatureInfo']['propertyNames']
-                                displayTypes = layer['getFeatureInfo']['displayTypes']
+                                displayTypes = layer['getFeatureInfo']['displayTypes'] if 'displayTypes' in layer['getFeatureInfo'] else dict()
                                 featureInfo = {'format': 'TEMPLATE'}
 
                                 _template = '<div>'
@@ -420,15 +420,15 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                     _label = propertyNames[_field] if propertyNames[_field] else _field
                                     _template += '<div class="row">'
 
-                                    if displayTypes[_field] == 'type_href':
+                                    if _field in displayTypes and displayTypes[_field] == 'type_href':
                                         _template += '<div class="col-xs-6" style="font-weight: bold; word-wrap: break-word;">%s:</div> \
                                             <div class="col-xs-6" style="word-wrap: break-word;"><a href="${properties.%s}" target="_new">${properties.%s}</a></div>' % \
                                             (_label, _field, _field)
-                                    elif displayTypes[_field] == 'type_image':
+                                    elif _field in displayTypes and displayTypes[_field] == 'type_image':
                                         _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
                                             <a href="${properties.%s}" target="_new"><img width="100%%" height="auto" src="${properties.%s}" title="%s" alt="%s"/></a></div>' % \
                                             (_field, _field, _label, _label)
-                                    elif 'type_video' in displayTypes[_field]:
+                                    elif _field in displayTypes and 'type_video' in displayTypes[_field]:
                                         if 'youtube' in displayTypes[_field]:
                                             _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
                                                 <iframe src="${properties.%s}" width="100%%" height="360" frameborder="0" allowfullscreen></iframe></div>' % \
@@ -438,11 +438,11 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                                             _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
                                                 <video width="100%%" height="360" controls><source src="${properties.%s}" type="%s">Your browser does not support the video tag.</video></div>' % \
                                                 (_field, _type)
-                                    elif displayTypes[_field] == 'type_audio':
+                                    elif _field in displayTypes and displayTypes[_field] == 'type_audio':
                                         _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
                                             <audio controls><source src="${properties.%s}" type="audio/mpeg">Your browser does not support the audio element.</audio></div>' % \
                                             (_field)
-                                    elif displayTypes[_field] == 'type_iframe':
+                                    elif _field in displayTypes and displayTypes[_field] == 'type_iframe':
                                         _template += '<div class="col-xs-12" align="center" style="font-weight: bold; word-wrap: break-word;"> \
                                             <iframe src="/proxy/?url=${properties.%s}" width="100%%" height="360" frameborder="0" allowfullscreen></iframe></div>' % \
                                             (_field)
