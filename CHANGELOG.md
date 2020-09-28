@@ -1,5 +1,26 @@
 # Change Log
 
+## 2.0.4.7 [2020-09-28]
+
+<li> 2020-09-28: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/7ce464981e9b9f7df330734327a4f7e3719c4ff6" target="blank"> Fixes: Search services are not saved https://github.com/GeoNode/geonode-mapstore-client/issues/58</a></li> 
+<li> 2020-07-12: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/4b88668680882403679236fa9f4ec41be95877db" target="blank">  - Bump to version 2.0.4.6</a></li> 
+<li> 2020-07-12: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/0a7b5f811ea6141af94912c75114cd2bc56beb18" target="blank"> Update idna requirement from <2.9,>=2.5 to >=2.5,<2.11</a></li> 
+<li> 2020-07-01: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/7d112ea68e3d8db5c0e443794101aa0574e461df" target="blank">  - Bump to version 2.0.4.5</a></li> 
+<li> 2020-06-29: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/da54f5481b08bf0ef80f9efad192aa05d8c8739d" target="blank">  - Bump to version 2.0.4.4</a></li> 
+<li> 2020-06-29: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/5610f062dd6c0031deddf01ed37f65908e9ee8f6" target="blank">  - Bump to version 2.0.4.3</a></li> 
+<li> 2020-06-26: giohappy <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/2c806882dbe3c44464d63c61fcde5470e8f0b75a" target="blank"> map MS2 bbox coords to GN config convention</a></li> 
+<li> 2020-06-25: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/62dd5c2b9cf99c0a8ca293cd880ec7847917bdd1" target="blank">  - Bump to version 2.0.4.2</a></li> 
+<li> 2020-06-24: giohappy <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/4d0b33f69480d1f464bbc672165df22ad8d1d90f" target="blank"> fix #30</a></li> 
+<li> 2020-06-16: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/c78308cb1b942a3a5e5dd8a0753e482984075f12" target="blank"> - Bump to version 2.0.4.1</a></li> 
+<li> 2020-06-10: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/fc31653a350f9fa46639feb0b98c6c360c27620e" target="blank">  - Bump to version 2.0.4</a></li> 
+<li> 2020-06-10: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/f3d87b99943cc36b225504da9b3882ba4ffd7d46" target="blank"> GetFeatureInfo Template suport for media formats.</a></li> 
+<li> 2020-05-16: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/c75efc064c184ae14928230bdf6b0d907e222402" target="blank">  - Bump to version 2.0.3.3</a></li> 
+<li> 2020-05-16: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/020f3f47c59b7535fc07d1fedb38309fec3b6174" target="blank">  - Include params on WMS configuration</a></li> 
+<li> 2020-05-13: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/0a659ffabd682096a861c7a64834c343870f168a" target="blank">  - Bump to version 2.0.3.2</a></li> 
+<li> 2020-05-11: dependabot-preview[bot] <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/32549feb76c06ba18c26062e72bfe6a708019cf0" target="blank"> Bump markdown from 3.2.1 to 3.2.2</a></li> 
+<li> 2020-05-06: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/6cad59a278d74f9f40cc56da795851714197f3de" target="blank">  - Dockerfile/Travis: fixed version of pip to 20.1</a></li> 
+<li> 2020-04-20: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/75dc10528b6aa8eec9f9e3baa3e4b12b51b8f1a0" target="blank">  - Bump to version 2.0.3.1</a></li> 
+
 ## 2.0.4 [2020-06-10]
 
 <li> 2020-06-1: afabiani - GetFeatureInfo Template suport for media formats.</li> 
