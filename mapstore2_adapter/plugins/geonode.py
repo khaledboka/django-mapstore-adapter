@@ -203,6 +203,9 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                 if isinstance(ms2_map_data, string_types):
                     ms2_map_data = json.loads(ms2_map_data)
                 if 'map' in ms2_map_data:
+                    for _k, _v in ms2_map_data['map'].items():
+                        if _k not in data['map']:
+                            data['map'][_k] = ms2_map_data['map'][_k]
                     del ms2_map_data['map']
                 data.update(ms2_map_data)
             except Exception:
