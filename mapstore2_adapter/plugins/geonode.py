@@ -463,6 +463,8 @@ class GeoNodeMapStore2ConfigConverter(BaseMapStore2ConfigConverter):
                             # Push extraParams into GeoNode layerParams
                             if 'extraParams' in layer and layer['extraParams']:
                                 overlay['extraParams'] = layer['extraParams']
+                    elif 'name' in layer and layer['name'] == 'Annotations':
+                        overlay = layer
 
                     # Restore the id of ms2 layer
                     if "extraParams" in layer and "msId" in layer["extraParams"]:
