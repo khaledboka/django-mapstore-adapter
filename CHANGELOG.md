@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.0.5 [2020-10-18]
+
+<li> 2020-10-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/55dcba2868197575046be732becf16bea33bff0c" target="blank"> Fix "bbox_to_pojection" serialization</a></li> 
+<li> 2020-10-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/c04e7a0b3b830982de0c14d7f90afdd1ee04717f" target="blank"> Allowing mapstore apis to use Oauth2 authentication tokens</a></li> 
+<li> 2020-10-13: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/71262c652cc2765743bd3cb56b53c92b5b9bc943" target="blank"> [Fixes #32] Annotations layer not saved and restored correctly when opening a map on Mapstore2 and GeoNode 2.10.3</a></li> 
+<li> 2020-10-13: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/35b609bba6711cfdbbd09b64845ae55e0c2d7088" target="blank">  [Fixes #33] Map json data element does not contain map sublement when creating a map</a></li> 
+
 ## 2.0.4.7 [2020-09-28]
 
 <li> 2020-09-28: afabiani <a href="http://github.com/GeoNode/django-mapstore-adapter/commit/7ce464981e9b9f7df330734327a4f7e3719c4ff6" target="blank"> Fixes: Search services are not saved https://github.com/GeoNode/geonode-mapstore-client/issues/58</a></li> 
