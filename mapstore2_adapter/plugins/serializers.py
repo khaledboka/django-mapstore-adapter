@@ -26,6 +26,7 @@ try:
 except ImportError:
     from urlparse import urlparse, parse_qs
 from geonode.layers.models import Layer
+from geonode.base.bbox_utils import BBOXHelper
 
 is_analytics_enabled = False
 try:
@@ -245,20 +246,17 @@ class GeoNodeSerializer(object):
                                     _lyr['source'] = _lyr_context['source']
                         elif 'source' in _lyr:
                             _map_conf['sources'][_lyr['source']] = {}
-
-                    # Update Map BBox
-                    if not _map_bbox or len(_map_bbox) != 4:
-                        _map_bbox = _map_obj['maxExtent']
-
-                    # Must be in the form : [x0, x1, y0, y1]
-                    _map_obj['bbox'] = [_map_bbox[0], _map_bbox[1],
-                                        _map_bbox[2], _map_bbox[3]]
-
                     event_type = None
                     if is_analytics_enabled:
                         event_type = EventType.EVENT_CHANGE
 
                     if not map_obj:
+                        # Update Map BBox
+                        if 'bbox' not in _map_obj and (not _map_bbox or len(_map_bbox) != 4):
+                            _map_bbox = _map_obj['maxExtent']
+                            # Must be in the form : [x0, x1, y0, y1]
+                            _map_obj['bbox'] = [_map_bbox[0], _map_bbox[1],
+                                                _map_bbox[2], _map_bbox[3]]
                         # Create a new GeoNode Map
                         from geonode.maps.models import Map
                         map_obj = Map(
@@ -268,11 +266,15 @@ class GeoNodeSerializer(object):
                             center_y=_map_obj['center']['y'],
                             projection=_map_obj['projection'],
                             zoom=_map_obj['zoom'],
-                            bbox_x0=_map_obj['bbox'][0],
-                            bbox_y0=_map_obj['bbox'][1],
-                            bbox_x1=_map_obj['bbox'][2],
-                            bbox_y1=_map_obj['bbox'][3],
                             srid=_map_obj['projection'])
+                        if 'bbox' in _map_obj:
+                            if hasattr(map_obj, 'bbox_polygon'):
+                                map_obj.bbox_polygon = BBOXHelper.from_xy(_map_obj['bbox']).as_polygon()
+                            else:
+                                map_obj.bbox_x0 = _map_obj['bbox'][0]
+                                map_obj.bbox_y0 = _map_obj['bbox'][1]
+                                map_obj.bbox_x1 = _map_obj['bbox'][2]
+                                map_obj.bbox_y1 = _map_obj['bbox'][3]
                         map_obj.save()
 
                         if is_analytics_enabled:
