@@ -139,7 +139,12 @@ class GeoNodeSerializer(object):
                 if _a['name'] == 'abstract' and 'value' in _a:
                     _map_abstract = _a['value']
                 if 'thumb' in _a['name'] and 'value' in _a:
-                    (_map_thumbnail, _map_thumbnail_format) = decode_base64(_a['value'])
+                    try:
+                        (_map_thumbnail, _map_thumbnail_format) = decode_base64(_a['value'])
+                    except Exception:
+                        if _a['value']:
+                            _map_thumbnail = _a['value']
+                            _map_thumbnail_format = 'link'
         elif map_obj:
             _map_title = map_obj.title
             _map_abstract = map_obj.abstract
@@ -240,20 +245,17 @@ class GeoNodeSerializer(object):
                                     _lyr['source'] = _lyr_context['source']
                         elif 'source' in _lyr:
                             _map_conf['sources'][_lyr['source']] = {}
-
-                    # Update Map BBox
-                    if not _map_bbox or len(_map_bbox) != 4:
-                        _map_bbox = _map_obj['maxExtent']
-
-                    # Must be in the form : [x0, x1, y0, y1]
-                    _map_obj['bbox'] = [_map_bbox[0], _map_bbox[1],
-                                        _map_bbox[2], _map_bbox[3]]
-
                     event_type = None
                     if is_analytics_enabled:
                         event_type = EventType.EVENT_CHANGE
 
                     if not map_obj:
+                        # Update Map BBox
+                        if 'bbox' not in _map_obj and (not _map_bbox or len(_map_bbox) != 4):
+                            _map_bbox = _map_obj['maxExtent']
+                            # Must be in the form : [x0, x1, y0, y1]
+                            _map_obj['bbox'] = [_map_bbox[0], _map_bbox[1],
+                                                _map_bbox[2], _map_bbox[3]]
                         # Create a new GeoNode Map
                         from geonode.maps.models import Map
                         map_obj = Map(
@@ -263,11 +265,15 @@ class GeoNodeSerializer(object):
                             center_y=_map_obj['center']['y'],
                             projection=_map_obj['projection'],
                             zoom=_map_obj['zoom'],
-                            bbox_x0=_map_obj['bbox'][0],
-                            bbox_y0=_map_obj['bbox'][1],
-                            bbox_x1=_map_obj['bbox'][2],
-                            bbox_y1=_map_obj['bbox'][3],
                             srid=_map_obj['projection'])
+                        if 'bbox' in _map_obj:
+                            if hasattr(map_obj, 'bbox_polygon'):
+                                map_obj.bbox_polygon = BBOXHelper.from_xy(_map_obj['bbox']).as_polygon()
+                            else:
+                                map_obj.bbox_x0 = _map_obj['bbox'][0]
+                                map_obj.bbox_y0 = _map_obj['bbox'][1]
+                                map_obj.bbox_x1 = _map_obj['bbox'][2]
+                                map_obj.bbox_y1 = _map_obj['bbox'][3]
                         map_obj.save()
 
                         if is_analytics_enabled:
@@ -284,8 +290,11 @@ class GeoNodeSerializer(object):
 
                     # Dumps thumbnail from MapStore2 Interface
                     if _map_thumbnail:
-                        _map_thumbnail_filename = "map-%s-thumb.%s" % (map_obj.uuid, _map_thumbnail_format)
-                        map_obj.save_thumbnail(_map_thumbnail_filename, _map_thumbnail)
+                        if _map_thumbnail_format == 'link':
+                            map_obj.thumbnail_url = _map_thumbnail
+                        else:
+                            _map_thumbnail_filename = "map-%s-thumb.%s" % (map_obj.uuid, _map_thumbnail_format)
+                            map_obj.save_thumbnail(_map_thumbnail_filename, _map_thumbnail)
 
                     serializer.validated_data['id'] = map_obj.id
                     serializer.save(user=caller.request.user)
@@ -297,30 +306,33 @@ class GeoNodeSerializer(object):
             raise APIException("Map Configuration (data) is Mandatory!")
 
     def perform_create(self, caller, serializer):
-        map_obj = self.get_geonode_map(caller, serializer)
-
         _data = None
         _attributes = None
 
-        if 'data' in serializer.validated_data:
-            _data = serializer.validated_data.pop('data', None)
-        else:
+        try:
+            _data = serializer.validated_data['data'].copy()
+            serializer.validated_data.pop('data')
+        except Exception as e:
+            logger.exception(e)
             raise APIException("Map Configuration (data) is Mandatory!")
 
-        if 'attributes' in serializer.validated_data:
-            _attributes = serializer.validated_data.pop('attributes', None)
-        else:
+        try:
+            _attributes = serializer.validated_data['attributes'].copy()
+            serializer.validated_data.pop('attributes')
+        except Exception as e:
+            logger.exception(e)
             raise APIException("Map Metadata (attributes) are Mandatory!")
 
-        self.set_geonode_map(caller, serializer, map_obj, _data, _attributes)
+        map_obj = self.get_geonode_map(caller, serializer)
+        self.set_geonode_map(caller, serializer, map_obj, _data.copy(), _attributes.copy())
 
         if _data:
             # Save JSON blob
-            GeoNodeSerializer.update_data(serializer, _data)
+            GeoNodeSerializer.update_data(serializer, _data.copy())
 
         if _attributes:
             # Sabe Attributes
-            GeoNodeSerializer.update_attributes(serializer, _attributes)
+            GeoNodeSerializer.update_attributes(serializer, _attributes.copy())
 
         return serializer.save()
 
@@ -331,16 +343,18 @@ class GeoNodeSerializer(object):
         _attributes = None
 
         if 'data' in serializer.validated_data:
-            _data = serializer.validated_data.pop('data', None)
+            _data = serializer.validated_data['data'].copy()
+            serializer.validated_data.pop('data')
 
             # Save JSON blob
-            GeoNodeSerializer.update_data(serializer, _data)
+            GeoNodeSerializer.update_data(serializer, _data.copy())
 
         if 'attributes' in serializer.validated_data:
-            _attributes = serializer.validated_data.pop('attributes', None)
+            _attributes = serializer.validated_data['attributes'].copy()
+            serializer.validated_data.pop('attributes')
 
             # Sabe Attributes
-            GeoNodeSerializer.update_attributes(serializer, _attributes)
+            GeoNodeSerializer.update_attributes(serializer, _attributes.copy())
 
         self.set_geonode_map(caller, serializer, map_obj, _data, _attributes)
 

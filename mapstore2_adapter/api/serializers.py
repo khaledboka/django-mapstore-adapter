@@ -31,8 +31,6 @@ class JSONSerializerField(serializers.Field):
     def to_representation(self, value):
         try:
             return value.blob
-        # try:
-        #     return json.loads(value)
         except Exception:
             return value
 
@@ -63,9 +61,10 @@ class JSONArraySerializerField(serializers.Field):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = get_user_model()
-        fields = ('url', 'username', 'email', 'is_staff')
+        fields = ('url', 'username', 'email', 'is_staff', 'is_active', 'is_superuser',)
 
 
 class MapStoreResourceSerializer(serializers.HyperlinkedModelSerializer):

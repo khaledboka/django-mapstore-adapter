@@ -14,6 +14,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 
 from .models import MapStoreResource
 from .serializers import (UserSerializer,
@@ -29,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    authentication_classes = (SessionAuthentication, BasicAuthentication, OAuth2Authentication)
     permission_classes = (IsAdminUser,)
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
@@ -38,7 +39,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class MapStoreResourceViewSet(viewsets.ModelViewSet):
     """ Only Authenticate User perform CRUD Operations on Respective Data
     """
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    authentication_classes = [SessionAuthentication, BasicAuthentication, OAuth2Authentication]
     permission_classes = (IsAuthenticated,)
     model = MapStoreResource
     serializer_class = MapStoreResourceSerializer

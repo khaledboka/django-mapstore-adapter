@@ -10,7 +10,6 @@
 #########################################################################
 from django.conf.urls import url, include
 
-
 urlpatterns = [
     url(r'^', include('mapstore2_adapter.api.urls')),
 ]
