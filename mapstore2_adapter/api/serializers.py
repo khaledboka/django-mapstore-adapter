@@ -62,19 +62,6 @@ class JSONArraySerializerField(serializers.Field):
         return attributes
 
 
-class MapLayersJSONArraySerializerField(serializers.Field):
-
-    def to_internal_value(self, data):
-        return data
-
-    def to_representation(self, value):
-        if value:
-            from geonode.maps.models import Map
-            from geonode.maps.api.serializers import MapLayerSerializer
-            map = Map.objects.get(id=value)
-            return MapLayerSerializer(embed=True, many=True).to_representation(map.layers)
-
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -85,8 +72,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class MapStoreResourceSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.CharField(source='user.username',
                                  read_only=True)
-    layers = MapLayersJSONArraySerializerField(source='id',
-                                               read_only=True)
 
     def __init__(self, *args, **kwargs):
         # Instantiate the superclass normally
@@ -99,4 +84,4 @@ class MapStoreResourceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = MapStoreResource
-        fields = ('id', 'user', 'layers', 'name', 'creation_date', 'last_update')
+        fields = ('id', 'user', 'name', 'creation_date', 'last_update')
