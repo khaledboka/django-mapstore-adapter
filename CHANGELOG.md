@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.0.6 [2020-12-01]
+
+<li> 2020-12-01: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/205ed97b0c9642a515e86d6b5c9d1dedc29a574a" target="blank">  - Restore "MapLayersJSONArraySerializerField"</a></li> 
+<li> 2020-11-16: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/7edf5a577f5afc6b17af65dffb4194a2d13fd914" target="blank"> - Remove wrong dependency</a></li> 
+<li> 2020-11-16: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/819639130048a26685645929f667960870860825" target="blank">  - Remove wrong dependency</a></li> 
+<li> 2020-11-16: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/b743893f3594577dd87e2b69217aa14246ead984" target="blank"> [Hardening] JSON serializers</a></li> 
+<li> 2020-10-29: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/a0f15e567d66c5e56557f5be836bcaee7903fdf2" target="blank"> Bump djangorestframework to >= 3.8.2, <= 3.12.1</a></li> 
+<li> 2020-10-26: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/665545aeea790eaa1cef9acbd6711d412289a58a" target="blank">  - Bump to version 2.0.5.1</a></li> 
+<li> 2020-10-13: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/0deb3fb9dd4d0cd391e59b6960afac474222f4be" target="blank"> [Fixes #32] Annotations layer not saved and restored correctly when opening a map on Mapstore2 and GeoNode 2.10.3</a></li> 
+<li> 2020-10-13: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/94076add98e89150a50760addd0c2f84d06cccdc" target="blank">  [Fixes #33] Map json data element does not contain map sublement when creating a map</a></li> 
+<li> 2020-10-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/073da8bb27376a9fcfee472c31f5654a71677a2f" target="blank">  - Serialize map layers also on the mapstore resource</a></li> 
+<li> 2020-10-09: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/698e6b2b381dcf7e7745af75d7c9106e875ef971" target="blank">  - Api permissions classes: align to rest_api_v2_proof_of_concept branch</a></li> 
+
 ## 2.0.5 [2020-10-18]
 
 <li> 2020-10-18: afabiani <a href="https://github.com/GeoNode/django-mapstore-adapter/commit/55dcba2868197575046be732becf16bea33bff0c" target="blank"> Fix "bbox_to_pojection" serialization</a></li> 
