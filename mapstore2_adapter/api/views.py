@@ -15,6 +15,7 @@ from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly  # noqa
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from geonode.base.api.permissions import IsOwnerOrReadOnly
 
 from .models import MapStoreResource
 from .serializers import (UserSerializer,
@@ -40,7 +41,7 @@ class MapStoreResourceViewSet(viewsets.ModelViewSet):
     """ Only Authenticate User perform CRUD Operations on Respective Data
     """
     authentication_classes = [SessionAuthentication, BasicAuthentication, OAuth2Authentication]
-    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     model = MapStoreResource
     serializer_class = MapStoreResourceSerializer
 
