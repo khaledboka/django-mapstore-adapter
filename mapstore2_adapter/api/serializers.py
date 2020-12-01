@@ -15,6 +15,8 @@ from rest_framework import serializers
 from .models import MapStoreResource
 
 import re
+import six
+import json
 import base64
 import logging
 
@@ -29,10 +31,10 @@ class JSONSerializerField(serializers.Field):
         return data
 
     def to_representation(self, value):
-        try:
-            return value.blob
-        except Exception:
-            return value
+        data = value.blob if value and hasattr(value, 'blob') else value
+        if isinstance(data, six.string_types):
+            return json.loads(data)
+        return data
 
 
 class JSONArraySerializerField(serializers.Field):
@@ -60,24 +62,6 @@ class JSONArraySerializerField(serializers.Field):
         return attributes
 
 
-class MapLayersJSONArraySerializerField(serializers.Field):
-
-    def to_internal_value(self, data):
-        return data
-
-    def to_representation(self, value):
-        if value:
-            from geonode.maps.models import Map
-            from geonode.maps.api.serializers import MapLayerSerializer
-            # from geonode.layers.api.serializers import LayerSerializer
-            map = Map.objects.get(id=value)
-            # return [
-            #     MapLayerSerializer(embed=True, many=True).to_representation(map.layers),
-            #     LayerSerializer(embed=True, many=True).to_representation(map.local_layers)
-            # ]
-            return MapLayerSerializer(embed=True, many=True).to_representation(map.layers)
-
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -88,8 +72,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class MapStoreResourceSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.CharField(source='user.username',
                                  read_only=True)
-    layers = MapLayersJSONArraySerializerField(source='id',
-                                               read_only=True)
 
     def __init__(self, *args, **kwargs):
         # Instantiate the superclass normally
@@ -102,4 +84,4 @@ class MapStoreResourceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = MapStoreResource
-        fields = ('id', 'user', 'layers', 'name', 'creation_date', 'last_update')
+        fields = ('id', 'user', 'name', 'creation_date', 'last_update')
